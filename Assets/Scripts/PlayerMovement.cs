@@ -7,6 +7,9 @@ public class PlayerMovement : MonoBehaviour
     public float xSpeed = 0.1f;
     public float ySpeed = 0.1f;
 
+    [SerializeField]
+    float minX, maxX;
+
     // Start is called before the first frame update
     void Awake()
     {
@@ -22,12 +25,12 @@ public class PlayerMovement : MonoBehaviour
 
     public void move()
     {
-        float moveVertical = Input.GetAxisRaw("Vertical") * xSpeed;
-        float moveHorizontal = Input.GetAxisRaw("Horizontal") * ySpeed;
+        float moveVertical = Input.GetAxisRaw("Vertical") * xSpeed * Time.deltaTime;
+        float moveHorizontal = Input.GetAxisRaw("Horizontal") * ySpeed * Time.deltaTime;
 
         Vector3 newPos = transform.localPosition;
         newPos.y += moveVertical;
-        newPos.x += moveHorizontal;
+        newPos.x = Mathf.Clamp(newPos.x + moveHorizontal, minX, maxX);
 
         transform.localPosition = newPos;
     }

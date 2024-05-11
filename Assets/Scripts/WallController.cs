@@ -15,7 +15,7 @@ public class WallController : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
-        
+        rightRenderer.material.mainTextureOffset += Vector2.down * 0.4f;
     }
 
     // Update is called once per frame
