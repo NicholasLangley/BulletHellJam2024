@@ -7,10 +7,13 @@ public class Drill : MonoBehaviour
     public float health = 100;
     public float maxHealth = 100;
 
+    public ResourceBar healthBar;
+
     // Start is called before the first frame update
     void Awake()
     {
-        
+        healthBar.setMaxValue(maxHealth);
+        healthBar.setValue(health);
     }
 
     // Update is called once per frame
@@ -22,11 +25,13 @@ public class Drill : MonoBehaviour
     public void Damage(int dmg)
     {
         health -= dmg;
+        healthBar.setValue(health);
         if (health <= 0.0f) { Debug.Log("Game Over"); }
     }
     public void Repair(int heal)
     {
         health += heal;
+        healthBar.setValue(health);
         if (health >= maxHealth) { health = maxHealth; }
     }
 }
