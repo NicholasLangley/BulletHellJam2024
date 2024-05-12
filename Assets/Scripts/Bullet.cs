@@ -5,9 +5,11 @@ using UnityEngine;
 public class Bullet : MonoBehaviour
 {
 
-    float speed = 0;
-    Vector3 direction;
-    bool reflects;
+    public float speed = 0;
+    public Vector3 direction;
+    public bool reflects;
+
+    public float damage = 1.0f;
 
 
     // Start is called before the first frame update
@@ -52,15 +54,9 @@ public class Bullet : MonoBehaviour
             else { GameObject.Destroy(gameObject); }
         }
 
-        else if (collision.gameObject.CompareTag("Player"))
-        {
-            collision.gameObject.GetComponent<Player>().Damage();
-            GameObject.Destroy(gameObject);
-        }
-
         else if (collision.gameObject.CompareTag("Drill"))
         {
-            collision.gameObject.GetComponent<Drill>().Damage();
+            collision.gameObject.GetComponent<Drill>().Damage(damage);
             GameObject.Destroy(gameObject);
         }
     }
