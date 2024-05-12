@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Wall
   - Drill
+  - Monster
   layers:
   - Default
   - TransparentFX

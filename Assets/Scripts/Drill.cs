@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class Drill : MonoBehaviour
 {
-    public float health;
-    public float maxHealth;
+    public float health = 100;
+    public float maxHealth = 100;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         
     }
@@ -19,12 +19,12 @@ public class Drill : MonoBehaviour
         
     }
 
-    public void Damage(float dmg)
+    public void Damage(int dmg)
     {
         health -= dmg;
         if (health <= 0.0f) { Debug.Log("Game Over"); }
     }
-    public void Repair(float heal)
+    public void Repair(int heal)
     {
         health += heal;
         if (health >= maxHealth) { health = maxHealth; }

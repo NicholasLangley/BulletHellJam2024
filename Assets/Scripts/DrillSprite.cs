@@ -9,18 +9,23 @@ public class DrillSprite : MonoBehaviour
     Vector3 originalPos;
     bool vibrating = false;
     public float vibrateAmount;
+    public float vibrateTime = 0.1f;
+
+    float timer;
 
     // Start is called before the first frame update
     void Awake()
     {
         originalPos = transform.localPosition;
         startVibrating();
+        timer = 0.0f;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (vibrating) { vibrate(); }
+        timer += Time.deltaTime;
+        if (vibrating && timer > vibrateTime) { vibrate(); timer = 0.0f; }
     }
 
     void vibrate()
