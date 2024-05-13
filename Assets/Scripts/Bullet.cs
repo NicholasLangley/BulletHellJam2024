@@ -47,9 +47,14 @@ public class Bullet : MonoBehaviour
         _direction.y *= -1f;
     }
 
+    void setDirection(Vector3 dir)
+    {
+        _direction = dir;
+    }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Wall") || collision.gameObject.CompareTag("Wall"))
+        if (collision.gameObject.CompareTag("Wall"))
         {
             if (_reflects) { reflectX(); }
             else { GameObject.Destroy(gameObject); }
@@ -60,6 +65,27 @@ public class Bullet : MonoBehaviour
             collision.gameObject.GetComponent<Drill>().Damage(_damage);
             GameObject.Destroy(gameObject);
         }
+
+        else if (collision.gameObject.CompareTag("PlayerBullet") && gameObject.CompareTag("Bullet"))
+        {
+            GameObject.Destroy(collision.gameObject);
+            GameObject.Destroy(gameObject);
+        }
     }
-    
+
+    private void OnTriggerEnter2D(UnityEngine.Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("yDeflect"))
+        {
+            if (_reflects) { reflectY(); }
+            else { GameObject.Destroy(gameObject); }
+        }
+
+        else if (collision.gameObject.CompareTag("RedirectZone"))
+        {
+            Vector3 newDir = collision.gameObject.GetComponent<DeflectZone>().getTarget() - transform.position;
+            newDir.z = 0;
+            setDirection(newDir.normalized);
+        }
+    }
 }

@@ -30,5 +30,6 @@ public class BulletSpawner : MonoBehaviour
         bullet.Init(direction, speed, reflects, damage);
         bullet.transform.position = transform.position + direction * bulletSpawnOffset;
         bullet.transform.SetParent(transform);
+        bullet.gameObject.tag = "Bullet";
     }
 }

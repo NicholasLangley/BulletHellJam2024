@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class GameController : MonoBehaviour
 {
+    [Header ("Custom Cursor")]
+    public Texture2D cursorTexture;
+    public CursorMode cursorMode = CursorMode.Auto;
+    public Vector2 hotSpot = Vector2.zero;
+
     bool paused;
     float timeSpentPaused;
     // Start is called before the first frame update
@@ -34,5 +39,16 @@ public class GameController : MonoBehaviour
     {
         paused = false;
         Time.timeScale = 1;
+    }
+
+    //custom cursor stuff
+    void OnMouseEnter()
+    {
+        Cursor.SetCursor(cursorTexture, hotSpot, cursorMode);
+    }
+    void OnMouseExit()
+    {
+        // Pass 'null' to the texture parameter to use the default system cursor.
+        Cursor.SetCursor(null, Vector2.zero, cursorMode);
     }
 }

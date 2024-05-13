@@ -14,7 +14,6 @@ public class SwordPlayer : Player
     float minX, maxX, minY, maxY;
 
     //dashing variables
-    
     bool dashing;
 
     [Header("Dashing Variables")]
@@ -24,11 +23,17 @@ public class SwordPlayer : Player
     Vector3 dashDir;
 
 
+    [Header("Redirect Variables")]
+    public float redirectLength;
+    public float redirectCooldown;
+    bool redirecting;
+
     protected override void Awake()
     {
         base.Awake();
         dashing = false;
         dashTimer = 0.0f;
+        redirecting = false;
     }
 
     // Update is called once per frame
@@ -45,6 +50,11 @@ public class SwordPlayer : Player
         else 
         {
             move(); 
+        }
+
+        if (Input.GetKeyDown(KeyCode.Mouse0) && !redirecting)
+        {
+            Redirect();
         }
         
     }
@@ -80,9 +90,6 @@ public class SwordPlayer : Player
         {
             dashing = true;
             dashTimer = 0.0f;
-            //Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            //mousePos.z = transform.position.z;
-            //dashDir = mousePos - transform.position;
             dashDir = new Vector3(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"), 0.0f);
             dashDir = dashDir.normalized;
             decreaseEnergy(dashEnergyCost);
@@ -91,5 +98,28 @@ public class SwordPlayer : Player
         {
             Debug.Log("No Energy");
         }
+    }
+
+    public void Redirect()
+    {
+        Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        mousePos.z = transform.position.z;
+        GetComponentInChildren<DeflectZone>().setTarget(mousePos);
+
+        GetComponentInChildren<DeflectZone>().enableDeflect();
+        redirecting = true;
+        Invoke("stopRedirecting", redirectLength);
+
+    }
+
+    void stopRedirecting()
+    {
+        GetComponentInChildren<DeflectZone>().disableDeflect();
+        Invoke("finishRedirectCooldown", redirectCooldown);
+    }
+
+    void finishRedirectCooldown()
+    {
+        redirecting = false;
     }
 }
