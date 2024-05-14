@@ -6,7 +6,7 @@ public class Player : MonoBehaviour
 {
     [Header ("Shared Player Variables")]
     public float maxEnergy = 100.0f;
-    public float energy;
+    public float energy = 50;
     public float energyRechargeRate = 10;
 
     public ResourceBar energyBar;
@@ -14,6 +14,13 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     protected virtual void Awake()
     {
+        //energyBar.setMaxValue(maxEnergy);
+        //energyBar.setValue(energy);
+    }
+
+    public void setEnergyBar(ResourceBar bar)
+    {
+        energyBar = bar;
         energyBar.setMaxValue(maxEnergy);
         energyBar.setValue(energy);
     }

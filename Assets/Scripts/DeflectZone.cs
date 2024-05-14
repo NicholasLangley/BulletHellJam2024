@@ -10,8 +10,6 @@ public class DeflectZone : MonoBehaviour
     void Awake()
     {
         target = new Vector3(0,0,0);
-        gameObject.GetComponent<Collider2D>().enabled = false;
-        gameObject.GetComponent<SpriteRenderer>().enabled = false;
     }
 
     public void setTarget(Vector3 t)

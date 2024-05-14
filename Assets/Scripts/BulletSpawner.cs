@@ -28,7 +28,9 @@ public class BulletSpawner : MonoBehaviour
     {
         Bullet bullet = GameObject.Instantiate(bulletPrefab);
         bullet.Init(direction, speed, reflects, damage);
-        bullet.transform.position = transform.position + direction * bulletSpawnOffset;
+        Vector3 spawnPosition = transform.position + direction * bulletSpawnOffset;
+        spawnPosition.z = -5;
+        bullet.transform.position = spawnPosition;
         bullet.transform.SetParent(transform);
         bullet.gameObject.tag = "Bullet";
     }

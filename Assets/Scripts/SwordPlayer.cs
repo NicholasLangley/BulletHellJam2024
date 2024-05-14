@@ -34,6 +34,7 @@ public class SwordPlayer : Player
         dashing = false;
         dashTimer = 0.0f;
         redirecting = false;
+        GetComponentInChildren<DeflectZone>().disableDeflect();
     }
 
     // Update is called once per frame
@@ -62,8 +63,8 @@ public class SwordPlayer : Player
 
     public void move()
     {
-        float moveVertical = Input.GetAxisRaw("Vertical") * xSpeed * Time.deltaTime;
-        float moveHorizontal = Input.GetAxisRaw("Horizontal") * ySpeed * Time.deltaTime;
+        float moveVertical = Input.GetAxisRaw("Vertical") * ySpeed * Time.deltaTime;
+        float moveHorizontal = Input.GetAxisRaw("Horizontal") * xSpeed * Time.deltaTime;
 
         Vector3 newPos = transform.localPosition;
         newPos.y = Mathf.Clamp(newPos.y + moveVertical, minY, maxY);
@@ -72,6 +73,7 @@ public class SwordPlayer : Player
         transform.localPosition = newPos;
     }
 
+    //TODO: damage/deflect on dash?
     public void dash()
     {
         Vector3 newPos = transform.localPosition + dashDir * dashSpeed * Time.deltaTime;
