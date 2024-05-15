@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class GameController : MonoBehaviour
 {
@@ -8,6 +9,24 @@ public class GameController : MonoBehaviour
     public Texture2D cursorTexture;
     public CursorMode cursorMode = CursorMode.Auto;
     public Vector2 hotSpot = Vector2.zero;
+
+    [Header("Pause Menu")]
+    [SerializeField]
+    GameObject pauseMenu;
+    [SerializeField]
+    TextMeshProUGUI timeTheftText;
+
+    [Header("Character Select Menu")]
+    [SerializeField]
+    GameObject charSelectMenu;
+
+    [Header("Main Menu")]
+    [SerializeField]
+    GameObject mainMenu;
+    [SerializeField]
+    float menuTextFlashOn, menuTextFlashOff;
+    bool atMainMenu;
+    float mainMenuTimer;
 
     bool paused;
     float timeSpentPaused;
@@ -17,7 +36,10 @@ public class GameController : MonoBehaviour
     void Awake()
     {
         PauseGame();
+        closeSelectCharMenu();
         timeSpentPaused = 0.0f;
+        atMainMenu = true;
+        mainMenuTimer = 0.0f;
     }
 
     [Header("Player Stuff")]
@@ -37,33 +59,31 @@ public class GameController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (paused) { timeSpentPaused += Time.unscaledDeltaTime; }
-        if(Input.GetKeyDown(KeyCode.Escape))
+        if(atMainMenu)
+        {
+            mainMenuTimer += Time.unscaledDeltaTime;
+            if (mainMenuTimer > menuTextFlashOff + menuTextFlashOn) { mainMenuTimer = 0.0f; mainMenu.transform.Find("flashingText").gameObject.SetActive(true); }
+            else if (mainMenuTimer > menuTextFlashOn) { mainMenu.transform.Find("flashingText").gameObject.SetActive(false); }
+
+            if (Input.anyKeyDown) 
+            {
+                openSelectCharMenu();
+            }
+        }
+        else if (paused) { timeSpentPaused += Time.unscaledDeltaTime; timeTheftText.text = "Time Theft Commited: " + (int)timeSpentPaused + "s"; }
+        if(Input.GetKeyDown(KeyCode.Escape) && !atMainMenu)
         {
             if (!paused) { PauseGame(); }
             else { ResumeGame(); }
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            startGame(PLAYER_TYPE.SWORD_PLAYER);
-        }
-        else if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            startGame(PLAYER_TYPE.PAINT_PLAYER);
-        }
-        else if (Input.GetKeyDown(KeyCode.Alpha3))
-        {
-            startGame(PLAYER_TYPE.PONG_PLAYER);
         }
     }
 
     public void startGame(PLAYER_TYPE pType)
     {
-        if(currentPlayerChracter != null)
-        {
-            GameObject.Destroy(currentPlayerChracter.gameObject);
-            currentPlayerChracter = null;
-        }
+        destroyCurrentGame();
+
+        atMainMenu = false;
+        mainMenu.SetActive(false);
         
         switch (pType)
         {
@@ -94,11 +114,15 @@ public class GameController : MonoBehaviour
     {
         paused = true;
         Time.timeScale = 0;
+        pauseMenu.SetActive(true);
+        enablePauseButtons();
     }
     public void ResumeGame()
     {
         paused = false;
         Time.timeScale = 1;
+        pauseMenu.SetActive(false);
+        charSelectMenu.SetActive(false);
     }
 
     //custom cursor stuff
@@ -111,4 +135,55 @@ public class GameController : MonoBehaviour
         // Pass 'null' to the texture parameter to use the default system cursor.
         Cursor.SetCursor(null, Vector2.zero, cursorMode);
     }
+
+    public void openSelectCharMenu()
+    {
+        charSelectMenu.SetActive(true);
+        disablePauseButtons();
+    }
+
+    public void closeSelectCharMenu()
+    {
+        charSelectMenu.SetActive(false);
+        enablePauseButtons();
+    }
+
+    void enablePauseButtons()
+    {
+        pauseMenu.transform.Find("Buttons").gameObject.SetActive(true);
+    }
+
+    void disablePauseButtons()
+    {
+        pauseMenu.transform.Find("Buttons").gameObject.SetActive(false);
+    }
+
+    public void goToMainMenu()
+    {
+        atMainMenu = true;
+        mainMenu.SetActive(true);
+        PauseGame();
+    }
+
+    //destroy any spawned bullets/monsters/etc.
+    void destroyCurrentGame()
+    {
+        if (currentPlayerChracter != null)
+        {
+            GameObject.Destroy(currentPlayerChracter.gameObject);
+            currentPlayerChracter = null;
+        }
+
+        Object[] bullets = FindObjectsOfType<Bullet>();
+        foreach (Bullet b in bullets) { GameObject.Destroy(b.gameObject); }
+
+        Object[] monsters = FindObjectsOfType<Monster>();
+        foreach (Monster m in monsters) { GameObject.Destroy(m.gameObject); }
+    }
+
+    //call start game with enum, since you cant do this directly from the button due to using an enum parameter
+    public void startSwordPlayer() => startGame(PLAYER_TYPE.SWORD_PLAYER);
+    public void startPaintPlayer() => startGame(PLAYER_TYPE.PAINT_PLAYER);
+    public void startPongPlayer() => startGame(PLAYER_TYPE.PONG_PLAYER);
+    //public void startMissilePlayer() => startGame(PLAYER_TYPE.MISSILE_PLAYER);
 }
