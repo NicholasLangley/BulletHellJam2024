@@ -33,7 +33,7 @@ public class PaintLine : MonoBehaviour
             {
                 decayTimer = 0.0f;
                 if (colliders.Count == 0) { GameObject.Destroy(gameObject); }
-                else { GameObject.Destroy(colliders.Dequeue()); }
+                else { GameObject.Destroy(colliders.Dequeue()); removeFirstLineSegment(); }
             }
         }
     }
@@ -83,5 +83,19 @@ public class PaintLine : MonoBehaviour
         lr.startWidth = width;
         lr.endWidth = width;
         linewidth = width / 2.0f;
+    }
+
+    void removeFirstLineSegment()
+    {
+        int newVertextCount = lr.positionCount - 1;
+        Vector3[] newPositions = new Vector3[newVertextCount];
+
+        for(int i = 0; i < newVertextCount; i++)
+        {
+            newPositions[i] = lr.GetPosition(i + 1);
+        }
+
+        lr.positionCount = newVertextCount;
+        lr.SetPositions(newPositions);
     }
 }

@@ -5102,7 +5102,7 @@ MonoBehaviour:
   gameOverMenu: {fileID: 725308537}
   slowMoTime: 1
   swordPlayerPrefab: {fileID: 4523951619748834656, guid: b92620dcd310cda44a7440f6a0f83601, type: 3}
-  paintPlayerPrefab: {fileID: 7342425889348085190, guid: ad47dafb62d210d469fa959a69261cb4, type: 3}
+  paintPlayerPrefab: {fileID: 4114064180422176452, guid: ad47dafb62d210d469fa959a69261cb4, type: 3}
   pongPlayerPrefab: {fileID: 5417849844839295634, guid: f26978f239b9c2b4681f21f86189f720, type: 3}
   energyBar: {fileID: 1090897948}
   drill: {fileID: 1026732317}
