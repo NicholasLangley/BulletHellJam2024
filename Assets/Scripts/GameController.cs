@@ -31,15 +31,23 @@ public class GameController : MonoBehaviour
     bool paused;
     float timeSpentPaused;
 
+    [Header("Game Over Menu")]
+    [SerializeField]
+    GameObject gameOverMenu;
+    [SerializeField]
+    float slowMoTime = 1.0f;
+    bool gameOver;
+    float gameOverTimer;
+    
+
     public enum PLAYER_TYPE { SWORD_PLAYER, PAINT_PLAYER, PONG_PLAYER, MISSILE_PLAYER}
 
     void Awake()
     {
-        PauseGame();
+        goToMainMenu();
         closeSelectCharMenu();
         timeSpentPaused = 0.0f;
-        atMainMenu = true;
-        mainMenuTimer = 0.0f;
+        gameOver = false;
     }
 
     [Header("Player Stuff")]
@@ -59,19 +67,20 @@ public class GameController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(atMainMenu)
+        if (atMainMenu)
         {
             mainMenuTimer += Time.unscaledDeltaTime;
             if (mainMenuTimer > menuTextFlashOff + menuTextFlashOn) { mainMenuTimer = 0.0f; mainMenu.transform.Find("flashingText").gameObject.SetActive(true); }
             else if (mainMenuTimer > menuTextFlashOn) { mainMenu.transform.Find("flashingText").gameObject.SetActive(false); }
 
-            if (Input.anyKeyDown) 
+            if (Input.anyKeyDown)
             {
                 openSelectCharMenu();
             }
         }
         else if (paused) { timeSpentPaused += Time.unscaledDeltaTime; timeTheftText.text = "Time Theft Commited: " + (int)timeSpentPaused + "s"; }
-        if(Input.GetKeyDown(KeyCode.Escape) && !atMainMenu)
+        else if (gameOver) { gameOverTimer += Time.unscaledDeltaTime; Time.timeScale = 1.0f - Mathf.Lerp(0, 1, gameOverTimer / slowMoTime); }
+        if(Input.GetKeyDown(KeyCode.Escape) && !atMainMenu && !gameOver)
         {
             if (!paused) { PauseGame(); }
             else { ResumeGame(); }
@@ -84,7 +93,8 @@ public class GameController : MonoBehaviour
 
         atMainMenu = false;
         mainMenu.SetActive(false);
-        
+        gameOverMenu.SetActive(false);
+
         switch (pType)
         {
             case PLAYER_TYPE.SWORD_PLAYER:
@@ -161,7 +171,9 @@ public class GameController : MonoBehaviour
     public void goToMainMenu()
     {
         atMainMenu = true;
+        mainMenuTimer = 0.0f;
         mainMenu.SetActive(true);
+        gameOverMenu.SetActive(false);
         PauseGame();
     }
 
@@ -179,6 +191,13 @@ public class GameController : MonoBehaviour
 
         Object[] monsters = FindObjectsOfType<Monster>();
         foreach (Monster m in monsters) { GameObject.Destroy(m.gameObject); }
+    }
+
+
+    public void endGame()
+    {
+        gameOver = true;
+        gameOverMenu.SetActive(true);
     }
 
     //call start game with enum, since you cant do this directly from the button due to using an enum parameter

@@ -9,6 +9,9 @@ public class Drill : MonoBehaviour
 
     public ResourceBar healthBar;
 
+    [SerializeField]
+    GameController gc;
+
     // Start is called before the first frame update
     void Awake()
     {
@@ -26,7 +29,7 @@ public class Drill : MonoBehaviour
     {
         health -= dmg;
         healthBar.setValue(health);
-        if (health <= 0.0f) { Debug.Log("Game Over"); }
+        if (health <= 0.0f) { gc.endGame(); }
     }
     public void Repair(int heal)
     {
