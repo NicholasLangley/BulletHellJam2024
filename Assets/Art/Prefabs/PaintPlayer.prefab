@@ -111,7 +111,9 @@ MonoBehaviour:
   maxY: 9
   sprintSpeedMultiplier: 1.5
   sprintEnergyCost: 10
-  paintCost: 0
+  paintCost: 30
+  paintLinewidth: 0.5
+  paintDuration: 2
 --- !u!70 &3159305885706407705
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

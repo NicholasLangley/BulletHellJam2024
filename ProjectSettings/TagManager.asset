@@ -11,6 +11,7 @@ TagManager:
   - PlayerBullet
   - yDeflect
   - RedirectZone
+  - DestroyZone
   layers:
   - Default
   - TransparentFX

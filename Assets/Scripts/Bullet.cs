@@ -73,6 +73,14 @@ public class Bullet : MonoBehaviour
         }
     }
 
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("DestroyZone"))
+        {
+            GameObject.Destroy(gameObject);
+        }
+    }
+
     private void OnTriggerEnter2D(UnityEngine.Collider2D collision)
     {
         if (collision.gameObject.CompareTag("yDeflect"))
@@ -86,6 +94,10 @@ public class Bullet : MonoBehaviour
             Vector3 newDir = collision.gameObject.GetComponent<DeflectZone>().getTarget() - transform.position;
             newDir.z = 0;
             setDirection(newDir.normalized);
+        }
+        else if (collision.gameObject.CompareTag("DestroyZone"))
+        {
+            GameObject.Destroy(gameObject);
         }
     }
 }
