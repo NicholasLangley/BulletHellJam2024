@@ -26,27 +26,47 @@ public class PainterPlayer : Player
     public float paintDuration;
     bool currentlyPainting;
     PaintLine currentLine;
+    public float paintTickRate;
 
+    [Header("Attacking Variables")]
+    public float attackCost;
+    bool attacking;
 
     protected override void Awake()
     {
         base.Awake();
         currentlyPainting = false;
+        attacking = false;
     }
 
     // Update is called once per frame
     void Update()
     {
         move();
-        if (Input.GetKeyDown(KeyCode.Mouse0))
+        //painting stuff
+        if (Input.GetKeyDown(KeyCode.Mouse0) && energy > paintCost * Time.deltaTime * 3)
         {
+            stopAttacking();
             startPaint();
         }
-        else if (Input.GetKeyUp(KeyCode.Mouse0)) { stopPaint(); }
+        else if (Input.GetKeyUp(KeyCode.Mouse0) && currentlyPainting) { stopPaint(); }
         else if (currentlyPainting)
         {
             paintTimer += Time.deltaTime;
-            if (paintTimer >= 0.01f) { paint(); paintTimer = 0; }
+            if (paintTimer >= paintTickRate) { paint(); paintTimer = 0; }
+        }
+        //attacking stuff
+        else if (Input.GetKeyDown(KeyCode.Mouse1))
+        {
+            startAttacking();
+        }
+        else if (Input.GetKeyUp(KeyCode.Mouse1))
+        {
+            stopAttacking();
+        }
+        else if(attacking)
+        {
+            attack();
         }
     }
 
@@ -77,19 +97,47 @@ public class PainterPlayer : Player
         newLine.name = "Painted Line";
         currentLine = newLine.AddComponent(typeof(PaintLine)) as PaintLine;
         currentLine.setLinewidth(paintLinewidth);
-        currentLine.CreateLine(transform.position, paintDuration);
+        currentLine.CreateLine(transform.position, paintDuration, paintTickRate);
         currentlyPainting = true;
         paintTimer = 0;
     }
 
     void paint()
     {
-        currentLine.addPoint(transform.position);
+        if(energy > paintCost * Time.deltaTime * (1.0f / paintTickRate))
+        {
+            currentLine.addPoint(transform.position);
+            decreaseEnergy(paintCost * Time.deltaTime * (1.0f / paintTickRate));
+        }
+        else
+        {
+            stopPaint();
+        }
+        
     }
 
     void stopPaint()
     {
         currentlyPainting = false;
         currentLine = null;
+    }
+
+    void startAttacking()
+    {
+        attacking = true;
+        attack();
+        GetComponentInChildren<AttackZone>().enableAttack();
+    }
+
+    void attack()
+    {
+        if (energy < attackCost * Time.deltaTime) { stopAttacking(); return; }
+        decreaseEnergy(attackCost * Time.deltaTime);
+    }
+
+    void stopAttacking()
+    {
+        attacking = false;
+        GetComponentInChildren<AttackZone>().disableAttack();
     }
 }

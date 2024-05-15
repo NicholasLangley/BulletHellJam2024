@@ -7,8 +7,11 @@ public class PaintLine : MonoBehaviour
     public LineRenderer lr;
     public MeshCollider lineCollider;
     public Mesh mesh;
-    public float age, maxAge = 10.0f;
+    public float age, decayDelay = 2.0f, decayTickRate;
+    float decayTimer = 0;
     public float linewidth;
+
+    Queue<PolygonCollider2D> colliders;
 
     public void Awake()
     {
@@ -16,21 +19,32 @@ public class PaintLine : MonoBehaviour
         linewidth = 0.1f;
         lr = gameObject.AddComponent(typeof(LineRenderer)) as LineRenderer;
         lr.positionCount = 2;
+        colliders = new Queue<PolygonCollider2D>();
+        decayTimer = 0.0f;
     }
 
     private void Update()
     {
         age += Time.deltaTime;
-        if (age > maxAge) { GameObject.Destroy(gameObject); }
+        if (age > decayDelay) 
+        {
+            decayTimer += Time.deltaTime;
+            if(decayTimer > decayTickRate)
+            {
+                decayTimer = 0.0f;
+                if (colliders.Count == 0) { GameObject.Destroy(gameObject); }
+                else { GameObject.Destroy(colliders.Dequeue()); }
+            }
+        }
     }
 
     // Update is called once per frame
-    public void CreateLine(Vector3 startPos, float duration)
-    {
-        
+    public void CreateLine(Vector3 startPos, float duration, float tickRate)
+    {  
         lr.SetPosition(0, startPos);
         lr.SetPosition(1, startPos);
-        maxAge = duration;
+        decayDelay = duration;
+        decayTickRate = tickRate;
     }
 
     public void addPoint(Vector3 pos)
@@ -60,6 +74,8 @@ public class PaintLine : MonoBehaviour
         segmentPoints[2] = end + antinormal * linewidth;
         segmentPoints[3] = start + antinormal * linewidth;
         segment.points = segmentPoints;
+
+        colliders.Enqueue(segment);
     }
 
     public void setLinewidth(float width)

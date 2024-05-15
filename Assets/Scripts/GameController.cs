@@ -117,6 +117,7 @@ public class GameController : MonoBehaviour
         
         timeSpentPaused = 0.0f;
         drill.Repair(99999);
+        gameOver = false;
         ResumeGame();
     }
 
@@ -198,6 +199,7 @@ public class GameController : MonoBehaviour
     {
         gameOver = true;
         gameOverMenu.SetActive(true);
+        gameOverTimer = 0.0f;
     }
 
     //call start game with enum, since you cant do this directly from the button due to using an enum parameter
