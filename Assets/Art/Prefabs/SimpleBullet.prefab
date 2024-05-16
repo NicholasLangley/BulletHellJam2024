@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5807574631084040336}
   - component: {fileID: 230359065665362900}
   - component: {fileID: 1367298826434112742}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SimpleBullet
   m_TagString: Bullet
   m_Icon: {fileID: 0}
@@ -150,7 +150,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
+  m_Mass: 1000
   m_LinearDrag: 0
   m_AngularDrag: 0
   m_GravityScale: 0
@@ -160,7 +160,7 @@ Rigidbody2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 64
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0

@@ -52,41 +52,12 @@ public class Bullet : MonoBehaviour
         _direction = dir;
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.CompareTag("Wall"))
-        {
-            if (_reflects) { reflectX(); }
-            else { GameObject.Destroy(gameObject); }
-        }
-
-        else if (collision.gameObject.CompareTag("Drill"))
-        {
-            collision.gameObject.GetComponent<Drill>().Damage(_damage);
-            GameObject.Destroy(gameObject);
-        }
-
-        else if (collision.gameObject.CompareTag("PlayerBullet") && gameObject.CompareTag("Bullet"))
-        {
-            GameObject.Destroy(collision.gameObject);
-            GameObject.Destroy(gameObject);
-        }
-    }
-
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.CompareTag("DestroyZone"))
-        {
-            GameObject.Destroy(gameObject);
-        }
-    }
-
     private void OnTriggerEnter2D(UnityEngine.Collider2D collision)
     {
         if (collision.gameObject.CompareTag("yDeflect"))
         {
-            if (_reflects) { reflectY(); }
-            else { GameObject.Destroy(gameObject); }
+            if (_reflects) { reflectY(); makePlayerBullet(); }
+            else { killBullet(); }
         }
 
         else if (collision.gameObject.CompareTag("RedirectZone"))
@@ -94,10 +65,46 @@ public class Bullet : MonoBehaviour
             Vector3 newDir = collision.gameObject.GetComponent<DeflectZone>().getTarget() - transform.position;
             newDir.z = 0;
             setDirection(newDir.normalized);
+            makePlayerBullet();
         }
         else if (collision.gameObject.CompareTag("DestroyZone"))
         {
-            GameObject.Destroy(gameObject);
+            killBullet();
         }
+        else if (collision.gameObject.CompareTag("Wall"))
+        {
+            if (_reflects) { reflectX(); }
+            else { killBullet(); }
+        }
+
+        else if (collision.gameObject.CompareTag("Drill"))
+        {
+            Debug.Log(collision.gameObject.name);
+            collision.gameObject.GetComponent<Drill>().Damage(_damage);
+            killBullet();
+        }
+
+        else if (collision.gameObject.CompareTag("Monster") && gameObject.CompareTag("PlayerBullet"))
+        {
+            collision.gameObject.GetComponent<Monster>().Damage(_damage);
+            killBullet();
+        }
+
+        else if (collision.gameObject.CompareTag("PlayerBullet") && gameObject.CompareTag("Bullet"))
+        {
+            collision.gameObject.GetComponent<Bullet>().killBullet();
+            killBullet();
+        }
+    }
+
+    void makePlayerBullet()
+    {
+        gameObject.tag = "PlayerBullet";
+        gameObject.layer = LayerMask.NameToLayer("Default");
+    }
+
+    public void killBullet()
+    {
+        GameObject.Destroy(gameObject);
     }
 }

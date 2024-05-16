@@ -17,4 +17,15 @@ public class Monster : MonoBehaviour
     {
         
     }
+
+    public void Damage(float damage)
+    {
+        health -= damage;
+        if (health <= 0.00) { Kill(); }
+    }
+
+    public void Kill()
+    {
+        GameObject.Destroy(gameObject);
+    }
 }
