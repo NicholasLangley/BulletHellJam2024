@@ -42,31 +42,50 @@ public class PainterPlayer : Player
     // Update is called once per frame
     void Update()
     {
-        move();
-        //painting stuff
-        if (Input.GetKeyDown(KeyCode.Mouse0) && energy > paintCost * Time.deltaTime * 3)
+        if (pushing)
         {
+            stopPaint(); 
             stopAttacking();
-            startPaint();
+            pushTimer += Time.deltaTime;
+            if (pushTimer > pushDuration) { stopPushing(); }
+            else
+            {
+                Vector3 newPos = transform.localPosition + pushDir * pushStrength * Time.deltaTime;
+
+                newPos.y = Mathf.Clamp(newPos.y, minY, maxY);
+                newPos.x = Mathf.Clamp(newPos.x, minX, maxX);
+
+                transform.localPosition = newPos;
+            }
         }
-        else if (Input.GetKeyUp(KeyCode.Mouse0) && currentlyPainting) { stopPaint(); }
-        else if (currentlyPainting)
+        else
         {
-            paintTimer += Time.deltaTime;
-            if (paintTimer >= paintTickRate) { paint(); paintTimer = 0; }
-        }
-        //attacking stuff
-        else if (Input.GetKeyDown(KeyCode.Mouse1))
-        {
-            startAttacking();
-        }
-        else if (Input.GetKeyUp(KeyCode.Mouse1))
-        {
-            stopAttacking();
-        }
-        else if(attacking)
-        {
-            attack();
+            move();
+            //painting stuff
+            if (Input.GetKeyDown(KeyCode.Mouse0) && energy > paintCost * Time.deltaTime * 3)
+            {
+                stopAttacking();
+                startPaint();
+            }
+            else if (Input.GetKeyUp(KeyCode.Mouse0) && currentlyPainting) { stopPaint(); }
+            else if (currentlyPainting)
+            {
+                paintTimer += Time.deltaTime;
+                if (paintTimer >= paintTickRate) { paint(); paintTimer = 0; }
+            }
+            //attacking stuff
+            else if (Input.GetKey(KeyCode.Mouse1))
+            {
+                startAttacking();
+            }
+            else if (Input.GetKeyUp(KeyCode.Mouse1))
+            {
+                stopAttacking();
+            }
+            else if (attacking)
+            {
+                attack();
+            }
         }
     }
 

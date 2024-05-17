@@ -2,14 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Monster : MonoBehaviour
+public abstract class Monster : MonoBehaviour
 {
+    [Header ("Monster Base Class")]
     [SerializeField]
-    float health;
+    public float health;
+    [Header("Bullet Spawner Variables")]
+    [SerializeField]
+    Bullet bulletPrefab;
+    [SerializeField]
+    float bulletOffset;
+    protected BulletSpawner bulletSpawner;
+
     // Start is called before the first frame update
-    void Start()
+    protected virtual void Awake()
     {
-        
+        bulletSpawner = gameObject.AddComponent(typeof(BulletSpawner)) as BulletSpawner;
+        bulletSpawner.bulletPrefab = bulletPrefab;
+        bulletSpawner.bulletSpawnOffset = bulletOffset;
     }
 
     // Update is called once per frame
@@ -28,4 +38,7 @@ public class Monster : MonoBehaviour
     {
         GameObject.Destroy(gameObject);
     }
+
+    protected abstract void Attack();
+
 }

@@ -2,14 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public abstract class Player : MonoBehaviour
 {
-    [Header ("Shared Player Variables")]
+    [Header("Shared Player Variables")]
     public float maxEnergy = 100.0f;
     public float energy = 50;
     public float energyRechargeRate = 10;
 
     public ResourceBar energyBar;
+
+    [Header("Bullet Push variables")]
+    [SerializeField]
+    protected float pushDuration;
+    [SerializeField]
+    protected float pushStrength;
+    protected Vector3 pushDir;
+    protected float pushTimer = 0.0f;
+    protected bool pushing;
 
     // Start is called before the first frame update
     protected virtual void Awake()
@@ -68,5 +77,19 @@ public class Player : MonoBehaviour
     {
         maxEnergy = max;
         energyBar.setMaxValue(maxEnergy);
+    }
+
+    public void Push(Vector3 origin)
+    {
+        pushDir = transform.position - origin;
+        pushDir.z = 0;
+        pushDir.Normalize();
+        pushTimer = 0.0f;
+        pushing = true;
+    }
+
+    public void stopPushing()
+    {
+        pushing = false;
     }
 }

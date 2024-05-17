@@ -192,7 +192,7 @@ public class GameController : MonoBehaviour
         foreach (Bullet b in bullets) { GameObject.Destroy(b.gameObject); }
 
         Object[] monsters = FindObjectsOfType<Monster>();
-        foreach (Monster m in monsters) { GameObject.Destroy(m.gameObject); }
+        //foreach (Monster m in monsters) { GameObject.Destroy(m.gameObject); }
 
         Object[] lines = FindObjectsOfType<PaintLine>();
         foreach (PaintLine l in lines) { GameObject.Destroy(l.gameObject); }

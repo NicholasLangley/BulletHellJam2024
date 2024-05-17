@@ -25,7 +25,7 @@ public class BulletSpawner : MonoBehaviour
     Queue<futureBullet> bulletsToFire;
 
     [SerializeField]
-    Bullet bulletPrefab;
+    public Bullet bulletPrefab;
 
     public float bulletSpawnOffset = 0.2f;
 
@@ -69,7 +69,7 @@ public class BulletSpawner : MonoBehaviour
         Vector3 spawnPosition = transform.position + direction.normalized * bulletSpawnOffset;
         spawnPosition.z = -5;
         bullet.transform.position = spawnPosition;
-        bullet.transform.SetParent(transform);
+        //bullet.transform.SetParent(transform);
         bullet.gameObject.tag = "Bullet";
     }
 

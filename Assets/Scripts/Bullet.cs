@@ -11,7 +11,6 @@ public class Bullet : MonoBehaviour
 
     public int _damage = 1;
 
-
     // Start is called before the first frame update
     void Start()
     {
@@ -79,7 +78,6 @@ public class Bullet : MonoBehaviour
 
         else if (collision.gameObject.CompareTag("Drill"))
         {
-            Debug.Log(collision.gameObject.name);
             collision.gameObject.GetComponent<Drill>().Damage(_damage);
             killBullet();
         }
@@ -93,6 +91,11 @@ public class Bullet : MonoBehaviour
         else if (collision.gameObject.CompareTag("PlayerBullet") && gameObject.CompareTag("Bullet"))
         {
             collision.gameObject.GetComponent<Bullet>().killBullet();
+            killBullet();
+        }
+        else if (collision.gameObject.CompareTag("Player"))
+        {
+            collision.gameObject.GetComponent<Player>().Push(transform.position);
             killBullet();
         }
     }

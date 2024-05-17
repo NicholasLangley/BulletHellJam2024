@@ -40,22 +40,40 @@ public class SwordPlayer : Player
     // Update is called once per frame
     void Update()
     {
-        if (dashing)
+        if (pushing)
         {
-            dash();
-        }
-        else if(Input.GetKeyDown(KeyCode.Space))
-        {
-            tryDash();
-        }
-        else 
-        {
-            move(); 
-        }
+            dashing = false;
+            pushTimer += Time.deltaTime;
+            if (pushTimer > pushDuration) { stopPushing(); }
+            else
+            {
+                Vector3 newPos = transform.localPosition + pushDir * pushStrength * Time.deltaTime;
 
-        if (Input.GetKeyDown(KeyCode.Mouse0) && !redirecting)
+                newPos.y = Mathf.Clamp(newPos.y, minY, maxY);
+                newPos.x = Mathf.Clamp(newPos.x, minX, maxX);
+
+                transform.localPosition = newPos;
+            }
+        }
+        else
         {
-            Redirect();
+            if (dashing)
+            {
+                dash();
+            }
+            else if (Input.GetKeyDown(KeyCode.Space))
+            {
+                tryDash();
+            }
+            else
+            {
+                move();
+            }
+
+            if (Input.GetKeyDown(KeyCode.Mouse0) && !redirecting)
+            {
+                Redirect();
+            }
         }
         
     }
