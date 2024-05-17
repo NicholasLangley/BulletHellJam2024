@@ -41,4 +41,12 @@ public abstract class Monster : MonoBehaviour
 
     protected abstract void Attack();
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.CompareTag("RedirectZone") || collision.CompareTag("DestroyZone"))
+        {
+            Damage(5);
+        }
+    }
+
 }

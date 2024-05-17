@@ -74,7 +74,7 @@ public class PainterPlayer : Player
                 if (paintTimer >= paintTickRate) { paint(); paintTimer = 0; }
             }
             //attacking stuff
-            else if (Input.GetKey(KeyCode.Mouse1))
+            else if (Input.GetKey(KeyCode.Mouse1) && (energy > attackCost * Time.deltaTime))
             {
                 startAttacking();
             }

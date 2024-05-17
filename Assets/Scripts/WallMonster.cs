@@ -2,33 +2,33 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BatMonster : Monster
+public class WallMonster : Monster
 {
-    [Header("Bat Monster Class")]
+    [Header("Wall Monster Class")]
     [SerializeField]
     float timeBetweenAttacks, bulletSpeed;
     [SerializeField]
     int attackDamage;
     float attackTimer;
 
-    float yPos;
-
-    // Start is called before the first frame update
+    [Header("Bullet Settings")]
+    [SerializeField]
+    float degrees;
+    [SerializeField]
+    float bulletFireRate;
+    [SerializeField]
+    int bulletCount, bulletDoubleBackCount;
     protected override void Awake()
     {
         base.Awake();
         attackTimer = 0.0f;
-        yPos = transform.position.y;
     }
 
     // Update is called once per frame
     void Update()
     {
-        Vector3 nextPos = new Vector3(transform.localPosition.x, yPos + 0.1f * Mathf.Sin(Mathf.PI * Time.time) - 0.3f, transform.localPosition.z);
-        transform.localPosition = nextPos;
-
         attackTimer += Time.deltaTime;
-        if(attackTimer > timeBetweenAttacks)
+        if (attackTimer > timeBetweenAttacks)
         {
             attackTimer = 0.0f;
             Attack();
@@ -37,6 +37,8 @@ public class BatMonster : Monster
 
     protected override void Attack()
     {
-        bulletSpawner.spawnBullet(Vector3.down, bulletSpeed, false, attackDamage);
+        bulletSpawner.spawnCrescentWave(Vector3.down + Vector3.right, degrees, bulletCount, bulletFireRate, bulletDoubleBackCount, bulletSpeed, true, attackDamage);
     }
+
+
 }
