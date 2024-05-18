@@ -39,6 +39,10 @@ public class PongPlayer : Player
             moveHorizontal *= sprintSpeedMultiplier;
             decreaseEnergy(sprintEnergyCost * Time.deltaTime);
         }
+        else
+        {
+            energyBar.notEnoughEnergy();
+        }
 
         Vector3 newPos = transform.localPosition;
         newPos.x = Mathf.Clamp(newPos.x + moveHorizontal, minX, maxX);

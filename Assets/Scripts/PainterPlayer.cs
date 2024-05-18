@@ -95,12 +95,13 @@ public class PainterPlayer : Player
         float moveVertical = Input.GetAxisRaw("Vertical") * ySpeed * Time.deltaTime;
         float moveHorizontal = Input.GetAxisRaw("Horizontal") * xSpeed * Time.deltaTime;
 
-        if(Input.GetKey(KeyCode.Space) && energy > sprintEnergyCost * Time.deltaTime)
+        if (Input.GetKey(KeyCode.Space) && energy > sprintEnergyCost * Time.deltaTime)
         {
             moveVertical *= sprintSpeedMultiplier;
             moveHorizontal *= sprintSpeedMultiplier;
             decreaseEnergy(sprintEnergyCost * Time.deltaTime);
         }
+        else { energyBar.notEnoughEnergy(); }
 
         Vector3 newPos = transform.localPosition;
         newPos.y = Mathf.Clamp(newPos.y + moveVertical, minY, maxY);
@@ -131,6 +132,7 @@ public class PainterPlayer : Player
         else
         {
             stopPaint();
+            energyBar.notEnoughEnergy();
         }
         
     }
@@ -150,7 +152,7 @@ public class PainterPlayer : Player
 
     void attack()
     {
-        if (energy < attackCost * Time.deltaTime) { stopAttacking(); return; }
+        if (energy < attackCost * Time.deltaTime) { stopAttacking(); energyBar.notEnoughEnergy(); return; }
         decreaseEnergy(attackCost * Time.deltaTime);
     }
 

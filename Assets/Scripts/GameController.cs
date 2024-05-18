@@ -38,6 +38,10 @@ public class GameController : MonoBehaviour
     float slowMoTime = 1.0f;
     bool gameOver;
     float gameOverTimer;
+
+    [Header("Wall Controller")]
+    [SerializeField]
+    WallController wallController;
     
 
     public enum PLAYER_TYPE { SWORD_PLAYER, PAINT_PLAYER, PONG_PLAYER, MISSILE_PLAYER}
@@ -84,6 +88,19 @@ public class GameController : MonoBehaviour
         {
             if (!paused) { PauseGame(); }
             else { ResumeGame(); }
+        }
+
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            wallController.transitionWallColor(Color.red);
+        }
+        else if (Input.GetKeyDown(KeyCode.B))
+        {
+            wallController.transitionWallColor(Color.blue);
+        }
+        else if (Input.GetKeyDown(KeyCode.G))
+        {
+            wallController.transitionWallColor(Color.green);
         }
     }
 
@@ -210,4 +227,6 @@ public class GameController : MonoBehaviour
     public void startPaintPlayer() => startGame(PLAYER_TYPE.PAINT_PLAYER);
     public void startPongPlayer() => startGame(PLAYER_TYPE.PONG_PLAYER);
     //public void startMissilePlayer() => startGame(PLAYER_TYPE.MISSILE_PLAYER);
+
+
 }

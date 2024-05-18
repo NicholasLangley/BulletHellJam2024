@@ -26,6 +26,7 @@ public class SwordPlayer : Player
     [Header("Redirect Variables")]
     public float redirectLength;
     public float redirectCooldown;
+    public float slashCost;
     bool redirecting;
 
     protected override void Awake()
@@ -69,12 +70,13 @@ public class SwordPlayer : Player
             else
             {
                 move();
+                if (Input.GetKeyDown(KeyCode.Mouse0) && !redirecting)
+                {
+                    Redirect();
+                }
             }
 
-            if (Input.GetKeyDown(KeyCode.Mouse0) && !redirecting)
-            {
-                Redirect();
-            }
+            
         }
         
     }
@@ -118,19 +120,28 @@ public class SwordPlayer : Player
         }
         else
         {
-            Debug.Log("No Energy");
+            energyBar.notEnoughEnergy();
         }
     }
 
     public void Redirect()
     {
-        Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        mousePos.z = transform.position.z;
-        GetComponentInChildren<DeflectZone>().setTarget(mousePos);
+        if (energy >= slashCost)
+        {
+            Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            mousePos.z = transform.position.z;
+            GetComponentInChildren<DeflectZone>().setTarget(mousePos);
 
-        GetComponentInChildren<DeflectZone>().enableDeflect();
-        redirecting = true;
-        Invoke("stopRedirecting", redirectLength);
+            GetComponentInChildren<DeflectZone>().enableDeflect();
+            redirecting = true;
+            Invoke("stopRedirecting", redirectLength);
+            decreaseEnergy(slashCost);
+        }
+        else
+        {
+            //no energy feedback
+            energyBar.notEnoughEnergy();
+        }
 
     }
 

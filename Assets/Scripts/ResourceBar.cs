@@ -28,4 +28,9 @@ public class ResourceBar : MonoBehaviour
     {
         slider.value = value;
     }
+
+    public void notEnoughEnergy()
+    {
+
+    }
 }

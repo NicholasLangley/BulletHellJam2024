@@ -78,7 +78,7 @@ public class Bullet : MonoBehaviour
             setDirection(newDir.normalized);
             makePlayerBullet();
         }
-        else if (collision.gameObject.CompareTag("DestroyZone"))
+        else if (collision.gameObject.CompareTag("DestroyZone") && !gameObject.CompareTag("PlayerBullet"))
         {
             killBullet();
         }

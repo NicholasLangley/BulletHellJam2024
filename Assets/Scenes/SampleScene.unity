@@ -2772,11 +2772,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5db009e70ed28d4586bc72567bfdaba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  colorTransitionLength: 5
+  oldColor: {r: 1, g: 1, b: 1, a: 0}
+  spotlight: {fileID: 998606288}
   speed: 1
   backgroundSpeedFraction: 0.5
   bgRenderer: {fileID: 1143498366}
   rightRenderer: {fileID: 1554714208}
   leftRenderer: {fileID: 1389352338}
+  horde: {fileID: 1923011661}
+  drill: {fileID: 302785698}
 --- !u!1 &1090897945
 GameObject:
   m_ObjectHideFlags: 0
@@ -5132,6 +5137,7 @@ MonoBehaviour:
   menuTextFlashOff: 0.25
   gameOverMenu: {fileID: 725308537}
   slowMoTime: 1
+  wallController: {fileID: 1059756055}
   swordPlayerPrefab: {fileID: 4523951619748834656, guid: b92620dcd310cda44a7440f6a0f83601, type: 3}
   paintPlayerPrefab: {fileID: 4114064180422176452, guid: ad47dafb62d210d469fa959a69261cb4, type: 3}
   pongPlayerPrefab: {fileID: 5417849844839295634, guid: f26978f239b9c2b4681f21f86189f720, type: 3}
