@@ -114,7 +114,7 @@ MonoBehaviour:
   minY: -6.2
   maxY: 9
   dashTime: 0.1
-  dashSpeed: 0
+  dashSpeed: 50
   dashEnergyCost: 30
   redirectLength: 0.1
   redirectCooldown: 0.1
