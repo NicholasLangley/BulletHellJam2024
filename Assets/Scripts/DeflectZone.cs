@@ -4,12 +4,18 @@ using UnityEngine;
 
 public class DeflectZone : MonoBehaviour
 {
+    [SerializeField]
     public Vector3 target; 
+    public bool pongZone = false;
 
     // Start is called before the first frame update
     void Awake()
     {
-        target = new Vector3(0,0,0);
+        gameObject.GetComponent<Collider2D>().enabled = true;
+        if (target == null)
+        {
+            target = new Vector3(0, 0, 0);
+        }
     }
 
     public void setTarget(Vector3 t)
@@ -25,12 +31,13 @@ public class DeflectZone : MonoBehaviour
 
     public void enableDeflect()
     {
-        gameObject.GetComponent<Collider2D>().enabled = true;
+        gameObject.layer = LayerMask.NameToLayer("Default");
         gameObject.GetComponent<SpriteRenderer>().enabled = true;
     }
     public void disableDeflect()
     {
-        gameObject.GetComponent<Collider2D>().enabled = false;
+        //gameObject.GetComponent<Collider2D>().enabled = false;
+        gameObject.layer = LayerMask.NameToLayer("NoCollision");
         gameObject.GetComponent<SpriteRenderer>().enabled = false;
     }
 }

@@ -14,6 +14,7 @@ TagManager:
   - DestroyZone
   - DrillRecharge
   - DestroyBulletsOnlyZone
+  - PongZone
   layers:
   - Default
   - TransparentFX

@@ -4,14 +4,21 @@ using UnityEngine;
 
 public class AttackZone : MonoBehaviour
 {
-    public void enableAttack()
+    void Awake()
     {
         gameObject.GetComponent<Collider2D>().enabled = true;
-        gameObject.GetComponent<SpriteRenderer>().enabled = true;
+    }
+
+        public void enableAttack()
+    {
+        GetComponent<Collider2D>().enabled = true;
+        gameObject.layer = LayerMask.NameToLayer("Default");
+        GetComponent<SpriteRenderer>().enabled = true;
     }
     public void disableAttack()
     {
-        gameObject.GetComponent<Collider2D>().enabled = false;
-        gameObject.GetComponent<SpriteRenderer>().enabled = false;
+        //GetComponent<Collider2D>().enabled = false;
+        gameObject.layer = LayerMask.NameToLayer("NoCollision");
+        GetComponent<SpriteRenderer>().enabled = false;
     }
 }

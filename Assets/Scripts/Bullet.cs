@@ -65,10 +65,10 @@ public class Bullet : MonoBehaviour
 
     private void OnTriggerEnter2D(UnityEngine.Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("yDeflect"))
+        if (collision.gameObject.CompareTag("yDeflect") && !gameObject.CompareTag("PlayerBullet"))
         {
-            if (_reflects) { reflectY(); makePlayerBullet(); }
-            else { killBullet(); }
+            reflectY(); 
+            makePlayerBullet();
         }
 
         else if (collision.gameObject.CompareTag("RedirectZone"))
@@ -81,6 +81,16 @@ public class Bullet : MonoBehaviour
         else if (collision.gameObject.CompareTag("DestroyZone"))
         {
             killBullet();
+        }
+        else if (collision.gameObject.CompareTag("PongZone") && !gameObject.CompareTag("PlayerBullet"))
+        {
+            reflectY();
+            Vector3 newDir = collision.gameObject.GetComponent<DeflectZone>().getTarget();
+            newDir.z = 0;
+            newDir.Normalize();
+            newDir += _direction.normalized;
+            setDirection(newDir.normalized);
+            makePlayerBullet();
         }
         else if (collision.gameObject.CompareTag("Wall"))
         {

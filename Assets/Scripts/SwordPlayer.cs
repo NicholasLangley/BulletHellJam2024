@@ -35,6 +35,7 @@ public class SwordPlayer : Player
         dashTimer = 0.0f;
         redirecting = false;
         GetComponentInChildren<DeflectZone>().disableDeflect();
+        GetComponentInChildren<AttackZone>().disableAttack();
     }
 
     // Update is called once per frame
@@ -101,7 +102,7 @@ public class SwordPlayer : Player
         transform.localPosition = newPos;
 
         dashTimer += Time.deltaTime;
-        if (dashTimer >= dashTime) { dashing = false; }
+        if (dashTimer >= dashTime) { dashing = false; GetComponentInChildren<AttackZone>().disableAttack(); }
     }
 
     public void tryDash()
@@ -110,9 +111,10 @@ public class SwordPlayer : Player
         {
             dashing = true;
             dashTimer = 0.0f;
-            dashDir = new Vector3(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"), 0.0f);
+            dashDir = new Vector3(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"), 0);
             dashDir = dashDir.normalized;
             decreaseEnergy(dashEnergyCost);
+            GetComponentInChildren<AttackZone>().enableAttack();
         }
         else
         {

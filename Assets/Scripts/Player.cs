@@ -39,6 +39,7 @@ public abstract class Player : MonoBehaviour
         if(other.CompareTag("DrillRecharge"))
         {
             StartCoroutine("Recharge");
+            Debug.Log("Entered");
         }
     }
 
@@ -47,6 +48,7 @@ public abstract class Player : MonoBehaviour
         if (other.CompareTag("DrillRecharge"))
         {
             StopCoroutine("Recharge");
+            Debug.Log("LEft");
         }
     }
 
