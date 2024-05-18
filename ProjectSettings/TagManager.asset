@@ -13,6 +13,7 @@ TagManager:
   - RedirectZone
   - DestroyZone
   - DrillRecharge
+  - DestroyBulletsOnlyZone
   layers:
   - Default
   - TransparentFX
