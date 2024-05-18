@@ -14,6 +14,9 @@ public abstract class Monster : MonoBehaviour
     float bulletOffset;
     protected BulletSpawner bulletSpawner;
 
+    [SerializeField]
+    GameObject explosionPrefab;
+
     // Start is called before the first frame update
     protected virtual void Awake()
     {
@@ -36,6 +39,11 @@ public abstract class Monster : MonoBehaviour
 
     public void Kill()
     {
+        GameObject explosion = GameObject.Instantiate(explosionPrefab);
+        Vector3 expTrans = explosion.transform.position;
+        expTrans.x = transform.position.x;
+        expTrans.y = transform.position.y;
+        explosion.transform.position = expTrans;
         GameObject.Destroy(gameObject);
     }
 

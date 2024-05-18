@@ -2840,7 +2840,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: cd2e7165699b2704e9ba291ebf09ddf7, type: 2}
+  - {fileID: 2100000, guid: 6f1cc804accd11844a0873c48fcec77f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -5760,7 +5760,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8485643151040068297, guid: b43be7243fbee59499eb3254c515e317, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -8
+      value: -7.75
       objectReference: {fileID: 0}
     - target: {fileID: 8485643151040068297, guid: b43be7243fbee59499eb3254c515e317, type: 3}
       propertyPath: m_LocalPosition.y
@@ -5768,7 +5768,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8485643151040068297, guid: b43be7243fbee59499eb3254c515e317, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8485643151040068297, guid: b43be7243fbee59499eb3254c515e317, type: 3}
       propertyPath: m_LocalRotation.w
@@ -5851,6 +5851,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3909527678958369968, guid: d518b89f393c33b43b3eae536d05de3d, type: 3}
+      propertyPath: explosionPrefab
+      value: 
+      objectReference: {fileID: 4915378140122189951, guid: 3e43574a39dbfb44fa2ff44f768dd7a6, type: 3}
     - target: {fileID: 7388956439672413920, guid: d518b89f393c33b43b3eae536d05de3d, type: 3}
       propertyPath: m_Name
       value: Bat

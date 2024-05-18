@@ -11,6 +11,9 @@ public class Bullet : MonoBehaviour
 
     public int _damage = 1;
 
+    [SerializeField]
+    GameObject explosionPrefab;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -51,6 +54,15 @@ public class Bullet : MonoBehaviour
         _direction = dir;
     }
 
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("PlayerBullet") && gameObject.CompareTag("Bullet"))
+        {
+            collision.gameObject.GetComponent<Bullet>().killBullet();
+            killBullet();
+        }
+    }
+
     private void OnTriggerEnter2D(UnityEngine.Collider2D collision)
     {
         if (collision.gameObject.CompareTag("yDeflect"))
@@ -88,11 +100,7 @@ public class Bullet : MonoBehaviour
             killBullet();
         }
 
-        else if (collision.gameObject.CompareTag("PlayerBullet") && gameObject.CompareTag("Bullet"))
-        {
-            collision.gameObject.GetComponent<Bullet>().killBullet();
-            killBullet();
-        }
+        
         else if (collision.gameObject.CompareTag("Player"))
         {
             collision.gameObject.GetComponent<Player>().Push(transform.position);
@@ -102,12 +110,19 @@ public class Bullet : MonoBehaviour
 
     void makePlayerBullet()
     {
+        //gameObject.GetComponent<Collider2D>().isTrigger = true;
         gameObject.tag = "PlayerBullet";
         gameObject.layer = LayerMask.NameToLayer("Default");
+        gameObject.GetComponent<Rigidbody2D>().excludeLayers = LayerMask.GetMask("Nothing");
     }
 
     public void killBullet()
     {
+        GameObject explosion = GameObject.Instantiate(explosionPrefab);
+        Vector3 expTrans = explosion.transform.position;
+        expTrans.x = transform.position.x;
+        expTrans.y = transform.position.y;
+        explosion.transform.position = expTrans; 
         GameObject.Destroy(gameObject);
     }
 }
