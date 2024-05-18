@@ -99,8 +99,12 @@ public class Bullet : MonoBehaviour
             collision.gameObject.GetComponent<Monster>().Damage(_damage);
             killBullet();
         }
+        else if (collision.gameObject.CompareTag("DestroyBulletsOnlyZone"))
+        {
+            killBullet();
+        }
 
-        
+
         else if (collision.gameObject.CompareTag("Player"))
         {
             collision.gameObject.GetComponent<Player>().Push(transform.position);
