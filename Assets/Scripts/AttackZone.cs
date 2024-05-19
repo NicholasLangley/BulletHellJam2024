@@ -12,7 +12,7 @@ public class AttackZone : MonoBehaviour
     public void enableAttack()
     {
         GetComponent<Collider2D>().enabled = true;
-        gameObject.layer = LayerMask.NameToLayer("Default");
+        gameObject.layer = LayerMask.NameToLayer("laser");
         GetComponent<SpriteRenderer>().enabled = true;
     }
 

@@ -42,9 +42,10 @@ public class SwordPlayer : Player
     // Update is called once per frame
     void Update()
     {
+        if (dashing) { pushing = false; }
         if (pushing)
         {
-            dashing = false;
+            if (dashing) { pushing = false; }
             pushTimer += Time.deltaTime;
             if (pushTimer > pushDuration) { stopPushing(); }
             else

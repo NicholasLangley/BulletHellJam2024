@@ -25,7 +25,7 @@ public class Drill : MonoBehaviour
         
     }
 
-    public void Damage(int dmg)
+    public void Damage(float dmg)
     {
         health -= dmg;
         healthBar.setValue(health);

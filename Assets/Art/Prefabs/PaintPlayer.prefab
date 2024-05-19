@@ -259,7 +259,7 @@ MonoBehaviour:
   sprintEnergyCost: 10
   paintCost: 5
   paintLinewidth: 0.25
-  paintDuration: 2
+  paintDuration: 3
   paintTickRate: 0.01
   attackCost: 5
 --- !u!70 &3655251327072613876

@@ -118,6 +118,7 @@ MonoBehaviour:
   dashEnergyCost: 30
   redirectLength: 0.1
   redirectCooldown: 0.1
+  slashCost: 5
 --- !u!70 &1376577203736179241
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

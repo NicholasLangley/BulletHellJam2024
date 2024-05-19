@@ -36,7 +36,7 @@ public class PainterPlayer : Player
     {
         base.Awake();
         currentlyPainting = false;
-        attacking = false;
+        stopAttacking();
     }
 
     // Update is called once per frame
@@ -115,6 +115,7 @@ public class PainterPlayer : Player
         GameObject newLine = new GameObject();
         newLine.tag = "DestroyZone";
         newLine.name = "Painted Line";
+        newLine.layer = LayerMask.NameToLayer("laser");
         currentLine = newLine.AddComponent(typeof(PaintLine)) as PaintLine;
         currentLine.setLinewidth(paintLinewidth);
         currentLine.CreateLine(transform.position, paintDuration, paintTickRate);

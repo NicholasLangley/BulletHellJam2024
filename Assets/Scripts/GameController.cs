@@ -42,17 +42,6 @@ public class GameController : MonoBehaviour
     [Header("Wall Controller")]
     [SerializeField]
     WallController wallController;
-    
-
-    public enum PLAYER_TYPE { SWORD_PLAYER, PAINT_PLAYER, PONG_PLAYER, MISSILE_PLAYER}
-
-    void Awake()
-    {
-        goToMainMenu();
-        closeSelectCharMenu();
-        timeSpentPaused = 0.0f;
-        gameOver = false;
-    }
 
     [Header("Player Stuff")]
     [SerializeField]
@@ -66,6 +55,24 @@ public class GameController : MonoBehaviour
     [Header("Drill")]
     [SerializeField]
     Drill drill;
+
+    [Header("Score Section")]
+    [SerializeField]
+    TextMeshProUGUI scoreText;
+    float score;
+    public float scoreIncreaseSpeed;
+
+    public enum PLAYER_TYPE { SWORD_PLAYER, PAINT_PLAYER, PONG_PLAYER, MISSILE_PLAYER}
+
+    void Awake()
+    {
+        goToMainMenu();
+        closeSelectCharMenu();
+        timeSpentPaused = 0.0f;
+        gameOver = false;
+    }
+
+ 
 
 
     // Update is called once per frame
@@ -84,6 +91,7 @@ public class GameController : MonoBehaviour
         }
         else if (paused) { timeSpentPaused += Time.unscaledDeltaTime; timeTheftText.text = "Time Theft Commited: " + (int)timeSpentPaused + "s"; }
         else if (gameOver) { gameOverTimer += Time.unscaledDeltaTime; Time.timeScale = 1.0f - Mathf.Lerp(0, 1, gameOverTimer / slowMoTime); }
+        else { score += scoreIncreaseSpeed * Time.deltaTime;  scoreText.text = "Depth: " + (int)score + "m"; }
         if(Input.GetKeyDown(KeyCode.Escape) && !atMainMenu && !gameOver)
         {
             if (!paused) { PauseGame(); }
@@ -136,6 +144,7 @@ public class GameController : MonoBehaviour
         drill.Repair(99999);
         gameOver = false;
         gameOverTimer = 0.0f;
+        score = 0.0f;
         ResumeGame();
     }
 

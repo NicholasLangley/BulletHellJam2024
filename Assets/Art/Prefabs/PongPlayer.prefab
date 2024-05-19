@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2517514281177951004}
   - component: {fileID: 4273411237664609601}
   - component: {fileID: 3671728456643254682}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: left45
   m_TagString: PongZone
   m_Icon: {fileID: 0}
@@ -129,7 +129,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.2, y: 1}
+  m_Size: {x: 0.22, y: 1}
   m_EdgeRadius: 0
 --- !u!114 &3671728456643254682
 MonoBehaviour:
@@ -145,6 +145,83 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {x: -1, y: 1, z: 0}
   pongZone: 1
+--- !u!1 &2694603255442847747
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2073743259647213117}
+  - component: {fileID: 7418425005746241217}
+  m_Layer: 7
+  m_Name: laserKiller
+  m_TagString: laserKiller
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2073743259647213117
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2694603255442847747}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8165767728884368056}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &7418425005746241217
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2694603255442847747}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: -0.42}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1.28, y: 1}
+  m_EdgeRadius: 0
 --- !u!1 &3119253443388119823
 GameObject:
   m_ObjectHideFlags: 0
@@ -157,7 +234,7 @@ GameObject:
   - component: {fileID: 3712672209701905064}
   - component: {fileID: 6121153942332897686}
   - component: {fileID: 5747617916418942264}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: right15
   m_TagString: PongZone
   m_Icon: {fileID: 0}
@@ -274,7 +351,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.1, y: 1}
+  m_Size: {x: 0.11, y: 1}
   m_EdgeRadius: 0
 --- !u!114 &5747617916418942264
 MonoBehaviour:
@@ -300,7 +377,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8165767728884368056}
   - component: {fileID: 5417849844839295634}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: PongPlayer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -316,8 +393,8 @@ Transform:
   m_GameObject: {fileID: 3245698690136824834}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.0559142, y: -2.204023, z: 3}
-  m_LocalScale: {x: 1.2, y: 1, z: 1}
+  m_LocalPosition: {x: 4.6989512, y: -3.991912, z: 3}
+  m_LocalScale: {x: 2, y: 1.2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4589858956918866290}
@@ -325,6 +402,7 @@ Transform:
   - {fileID: 7439450360381038363}
   - {fileID: 8366720460439740400}
   - {fileID: 3751210735731679975}
+  - {fileID: 2073743259647213117}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &5417849844839295634
@@ -362,7 +440,7 @@ GameObject:
   - component: {fileID: 8003069228356829084}
   - component: {fileID: 3882937610528149820}
   - component: {fileID: 5412140135948530599}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: right45
   m_TagString: PongZone
   m_Icon: {fileID: 0}
@@ -479,7 +557,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.2, y: 1}
+  m_Size: {x: 0.22, y: 1}
   m_EdgeRadius: 0
 --- !u!114 &5412140135948530599
 MonoBehaviour:
@@ -507,7 +585,7 @@ GameObject:
   - component: {fileID: 237320499661988706}
   - component: {fileID: 2087462689052473981}
   - component: {fileID: 2649861350137994066}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: left15
   m_TagString: PongZone
   m_Icon: {fileID: 0}
@@ -624,7 +702,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.1, y: 1}
+  m_Size: {x: 0.11, y: 1}
   m_EdgeRadius: 0
 --- !u!114 &2649861350137994066
 MonoBehaviour:
@@ -652,7 +730,7 @@ GameObject:
   - component: {fileID: 6366778487702059896}
   - component: {fileID: 579562452152939270}
   - component: {fileID: 5177228361226668539}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: middle90
   m_TagString: yDeflect
   m_Icon: {fileID: 0}
@@ -769,7 +847,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.4, y: 1}
+  m_Size: {x: 0.41, y: 1}
   m_EdgeRadius: 0
 --- !u!114 &5177228361226668539
 MonoBehaviour:
