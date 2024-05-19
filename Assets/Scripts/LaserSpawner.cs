@@ -62,7 +62,7 @@ public class LaserSpawner : MonoBehaviour
         Vector3 end = transform.position;
         end.y = drillHeight;
         Laser laser = child.AddComponent<Laser>();
-        laser.Init(transform.position, end, startWidth, maxWidth, windupTime, growthTime, 0, expPrefab, 0, laserMat);
+        laser.Init(transform.position, end, startWidth, maxWidth, windupTime, growthTime, 0.5f, expPrefab, 0, laserMat);
 
         timer = 0.0f;
         firing = true;

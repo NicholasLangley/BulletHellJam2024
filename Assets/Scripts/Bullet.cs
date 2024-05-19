@@ -136,7 +136,8 @@ public class Bullet : MonoBehaviour
         Vector3 expTrans = explosion.transform.position;
         expTrans.x = transform.position.x;
         expTrans.y = transform.position.y;
-        explosion.transform.position = expTrans; 
+        explosion.transform.position = expTrans;
+        explosion.GetComponent<AudioSource>().volume = 0.2f;
         GameObject.Destroy(gameObject);
     }
 }

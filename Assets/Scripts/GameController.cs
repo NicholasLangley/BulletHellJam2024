@@ -69,14 +69,20 @@ public class GameController : MonoBehaviour
     Monster batPrefab, wallMonsterPrefab;
     public float batHeight, wallMonLeft, wallMonRight, wallMonHeight;
 
-    [Header ("Colors")]
+    [Header("Colors")]
     [SerializeField]
     Gradient levelGradient;
     public float scorePerLevel;
     float percentageIncrease = 12.5f;
-    float currentPercentage  = 10.0f;
+    float currentPercentage = 10.0f;
     float levelScore;
     int level;
+
+    [Header("sound stuff")]
+    [SerializeField]
+    AudioSource killSound;
+    [SerializeField]
+    AudioSource finalExplosionSound;
 
     public enum PLAYER_TYPE { SWORD_PLAYER, PAINT_PLAYER, PONG_PLAYER, MISSILE_PLAYER}
 
@@ -245,8 +251,11 @@ public class GameController : MonoBehaviour
 
     public void endGame()
     {
+        //only play once
+        if (gameOver == false) { finalExplosionSound.Play(); }
         gameOver = true;
         gameOverMenu.SetActive(true);
+        
     }
 
     //call start game with enum, since you cant do this directly from the button due to using an enum parameter
@@ -275,6 +284,7 @@ public class GameController : MonoBehaviour
     {
         Monster newBat = GameObject.Instantiate(batPrefab);
         newBat.transform.position = new Vector3(x, batHeight, 0.0f);
+        newBat.killSound = killSound;
     }
 
     void spawnWallMonster(bool isRightSide)
@@ -282,5 +292,6 @@ public class GameController : MonoBehaviour
         Monster newWallMon = GameObject.Instantiate(wallMonsterPrefab);
         newWallMon.transform.position = new Vector3((isRightSide ? wallMonRight : wallMonLeft), wallMonHeight, 2.5f);
         if (isRightSide) {newWallMon.transform.localScale = new Vector3(-1, 1, 1); }
+        newWallMon.killSound = killSound;
     }
 }

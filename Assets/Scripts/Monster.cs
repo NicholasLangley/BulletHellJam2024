@@ -14,6 +14,9 @@ public abstract class Monster : MonoBehaviour
     float bulletOffset;
     protected BulletSpawner bulletSpawner;
 
+    AudioSource hitSound;
+    public AudioSource killSound;
+
     [SerializeField]
     GameObject explosionPrefab;
 
@@ -23,6 +26,7 @@ public abstract class Monster : MonoBehaviour
         bulletSpawner = gameObject.AddComponent(typeof(BulletSpawner)) as BulletSpawner;
         bulletSpawner.bulletPrefab = bulletPrefab;
         bulletSpawner.bulletSpawnOffset = bulletOffset;
+        hitSound = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -34,11 +38,13 @@ public abstract class Monster : MonoBehaviour
     public void Damage(float damage)
     {
         health -= damage;
+        hitSound.Play();
         if (health <= 0.00) { Kill(); }
     }
 
     public void Kill()
     {
+        killSound.Play();
         GameObject explosion = GameObject.Instantiate(explosionPrefab);
         Vector3 expTrans = explosion.transform.position;
         expTrans.x = transform.position.x;

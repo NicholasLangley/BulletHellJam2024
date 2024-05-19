@@ -122,7 +122,7 @@ public class Laser : MonoBehaviour
             RaycastHit2D hit = Physics2D.Raycast(start2d, Vector2.down, Mathf.Infinity, LayerMask.GetMask("laser"));
             if (hit != null)
             {
-                if (hit.collider.CompareTag("RedirectZone") && hit.collider.gameObject.name == "SwordPlayerDeflectZone")
+                if (hit.collider.CompareTag("RedirectZone") && hit.collider.gameObject.name == "SwordPlayerDeflectZone" && timer > windupTime + growthTime)
                 {
                     cut = true;
                     timer = 0.0f;
