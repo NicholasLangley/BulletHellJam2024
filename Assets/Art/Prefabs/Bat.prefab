@@ -102,6 +102,7 @@ MonoBehaviour:
   health: 5
   bulletPrefab: {fileID: 5807574631084040336, guid: 5dcae909f03358f439c82129691b0eac, type: 3}
   bulletOffset: 0.1
+  explosionPrefab: {fileID: 4915378140122189951, guid: 3e43574a39dbfb44fa2ff44f768dd7a6, type: 3}
   timeBetweenAttacks: 1
   bulletSpeed: 2
   attackDamage: 1

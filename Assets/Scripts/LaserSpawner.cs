@@ -16,8 +16,8 @@ public class LaserSpawner : MonoBehaviour
 
     float sectionWidth;
 
-    bool lasersCreated, firing;
-
+    public bool firing;
+    public Material laserMat;
     private void Awake()
     {
         sectionWidth = maxWidth / sections;
@@ -46,7 +46,7 @@ public class LaserSpawner : MonoBehaviour
                     Vector3 start = leftmost + Vector3.right * sectionWidth * i;
                     Vector3 end = start;   end.y = drillHeight;
                     Laser laser = child.AddComponent<Laser>();
-                    laser.Init(start, end, sectionWidth, sectionWidth, 0, 0, duration, expPrefab, damage);
+                    laser.Init(start, end, sectionWidth, sectionWidth, 0, 0, duration, expPrefab, damage, laserMat);
                 }
                 firing = false;
             }
@@ -62,7 +62,7 @@ public class LaserSpawner : MonoBehaviour
         Vector3 end = transform.position;
         end.y = drillHeight;
         Laser laser = child.AddComponent<Laser>();
-        laser.Init(transform.position, end, startWidth, maxWidth, windupTime, growthTime, 0, expPrefab, 0);
+        laser.Init(transform.position, end, startWidth, maxWidth, windupTime, growthTime, 0, expPrefab, 0, laserMat);
 
         timer = 0.0f;
         firing = true;

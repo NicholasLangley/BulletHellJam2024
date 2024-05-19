@@ -5,7 +5,7 @@ using TMPro;
 
 public class GameController : MonoBehaviour
 {
-    [Header ("Custom Cursor")]
+    [Header("Custom Cursor")]
     public Texture2D cursorTexture;
     public CursorMode cursorMode = CursorMode.Auto;
     public Vector2 hotSpot = Vector2.zero;
@@ -62,6 +62,22 @@ public class GameController : MonoBehaviour
     float score;
     public float scoreIncreaseSpeed;
 
+    [Header("Monsters")]
+    [SerializeField]
+    LaserMonster laserMonster;
+    [SerializeField]
+    Monster batPrefab, wallMonsterPrefab;
+    public float batHeight, wallMonLeft, wallMonRight, wallMonHeight;
+
+    [Header ("Colors")]
+    [SerializeField]
+    Gradient levelGradient;
+    public float scorePerLevel;
+    float percentageIncrease = 12.5f;
+    float currentPercentage  = 10.0f;
+    float levelScore;
+    int level;
+
     public enum PLAYER_TYPE { SWORD_PLAYER, PAINT_PLAYER, PONG_PLAYER, MISSILE_PLAYER}
 
     void Awake()
@@ -70,6 +86,7 @@ public class GameController : MonoBehaviour
         closeSelectCharMenu();
         timeSpentPaused = 0.0f;
         gameOver = false;
+        wallController.transitionWallColor(levelGradient.Evaluate(currentPercentage / 100.0f));
     }
 
  
@@ -91,24 +108,24 @@ public class GameController : MonoBehaviour
         }
         else if (paused) { timeSpentPaused += Time.unscaledDeltaTime; timeTheftText.text = "Time Theft Commited: " + (int)timeSpentPaused + "s"; }
         else if (gameOver) { gameOverTimer += Time.unscaledDeltaTime; Time.timeScale = 1.0f - Mathf.Lerp(0, 1, gameOverTimer / slowMoTime); }
-        else { score += scoreIncreaseSpeed * Time.deltaTime;  scoreText.text = "Depth: " + (int)score + "m"; }
+        else { increaseScore(); }
         if(Input.GetKeyDown(KeyCode.Escape) && !atMainMenu && !gameOver)
         {
             if (!paused) { PauseGame(); }
             else { ResumeGame(); }
         }
 
-        if (Input.GetKeyDown(KeyCode.R))
+        if(Input.GetKeyDown(KeyCode.B))
         {
-            wallController.transitionWallColor(Color.red);
+            spawnBat(0);
         }
-        else if (Input.GetKeyDown(KeyCode.B))
+        if (Input.GetKeyDown(KeyCode.V))
         {
-            wallController.transitionWallColor(Color.blue);
+            spawnWallMonster(false);
         }
-        else if (Input.GetKeyDown(KeyCode.G))
+        if (Input.GetKeyDown(KeyCode.N))
         {
-            wallController.transitionWallColor(Color.green);
+            spawnWallMonster(true);
         }
     }
 
@@ -145,6 +162,7 @@ public class GameController : MonoBehaviour
         gameOver = false;
         gameOverTimer = 0.0f;
         score = 0.0f;
+        levelScore = 0.0f;
         ResumeGame();
     }
 
@@ -237,5 +255,32 @@ public class GameController : MonoBehaviour
     public void startPongPlayer() => startGame(PLAYER_TYPE.PONG_PLAYER);
     //public void startMissilePlayer() => startGame(PLAYER_TYPE.MISSILE_PLAYER);
 
+    void increaseScore()
+    {
+        score += scoreIncreaseSpeed * Time.deltaTime;
+        scoreText.text = "Depth: " + (int)score + "m";
 
+        levelScore += scoreIncreaseSpeed * Time.deltaTime;
+        if(levelScore >= scorePerLevel)
+        {
+            level++;
+            levelScore = 0.0f;
+            currentPercentage += percentageIncrease;
+            if (currentPercentage > 100) { currentPercentage = 10f; }
+            wallController.transitionWallColor(levelGradient.Evaluate(currentPercentage / 100.0f));
+        }
+    }
+
+    void spawnBat(float x)
+    {
+        Monster newBat = GameObject.Instantiate(batPrefab);
+        newBat.transform.position = new Vector3(x, batHeight, 0.0f);
+    }
+
+    void spawnWallMonster(bool isRightSide)
+    {
+        Monster newWallMon = GameObject.Instantiate(wallMonsterPrefab);
+        newWallMon.transform.position = new Vector3((isRightSide ? wallMonRight : wallMonLeft), wallMonHeight, 2.5f);
+        if (isRightSide) {newWallMon.transform.localScale = new Vector3(-1, 1, 1); }
+    }
 }

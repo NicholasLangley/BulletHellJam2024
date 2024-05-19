@@ -194,7 +194,7 @@ GameObject:
   - component: {fileID: 1003293734684998425}
   - component: {fileID: 3572045984978684757}
   m_Layer: 0
-  m_Name: DeflectZone
+  m_Name: SwordPlayerDeflectZone
   m_TagString: RedirectZone
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
