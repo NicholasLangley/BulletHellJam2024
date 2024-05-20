@@ -379,7 +379,7 @@ GameObject:
   - component: {fileID: 5417849844839295634}
   m_Layer: 7
   m_Name: PongPlayer
-  m_TagString: Untagged
+  m_TagString: PongZone
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -427,6 +427,7 @@ MonoBehaviour:
   stopChargingSound: {fileID: 0}
   lightningMat: {fileID: 2100000, guid: 4c512d4a6147e474c86ae5286914c8f8, type: 2}
   lightningMat2: {fileID: 2100000, guid: 424ddd0f9725e0445944ac8ba52a55c4, type: 2}
+  lightningHeight: -10
   xSpeed: 10
   minX: -8.3
   maxX: 8.3

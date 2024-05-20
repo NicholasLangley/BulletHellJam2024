@@ -21,6 +21,9 @@ public abstract class Monster : MonoBehaviour
     GameObject explosionPrefab;
 
     public int level;
+    public float spawnTimer;
+    public float yPos;
+    public float startPosY;
 
     // Start is called before the first frame update
     protected virtual void Awake()
@@ -29,12 +32,7 @@ public abstract class Monster : MonoBehaviour
         bulletSpawner.bulletPrefab = bulletPrefab;
         bulletSpawner.bulletSpawnOffset = bulletOffset;
         hitSound = GetComponent<AudioSource>();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        spawnTimer = 0.0f;
     }
 
     public void Damage(float damage)
@@ -59,10 +57,23 @@ public abstract class Monster : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.CompareTag("RedirectZone") || collision.CompareTag("DestroyZone"))
+        if(collision.CompareTag("RedirectZone"))
         {
-            Damage(5);
+            Damage(2);
         }
+        if (collision.CompareTag("DestroyZone"))
+        {
+            Damage(200);
+        }
+    }
+
+    public void setStartPos()
+    {
+        yPos = transform.position.y;
+        Vector3 spawnPos = transform.position;
+        spawnPos.y = 10;
+        transform.position = spawnPos;
+        startPosY = 10;
     }
 
 }

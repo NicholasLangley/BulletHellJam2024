@@ -8,6 +8,7 @@ public class Bullet : MonoBehaviour
     public float _speed = 0;
     public Vector3 _direction;
     public bool _reflects;
+    public bool _destructible;
 
     public float _damage = 1;
 
@@ -21,6 +22,7 @@ public class Bullet : MonoBehaviour
         {
             Init(Vector3.down, 1, false, 10);
         }
+        _destructible = true;
     }
 
     // Update is called once per frame
@@ -56,10 +58,10 @@ public class Bullet : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("PlayerBullet") && gameObject.CompareTag("Bullet"))
+        if (collision.gameObject.CompareTag("Bullet") && gameObject.CompareTag("PlayerBullet"))
         {
             collision.gameObject.GetComponent<Bullet>().killBullet();
-            killBullet();
+            if (_destructible == true) { killBullet(); }
         }
     }
 
@@ -67,7 +69,8 @@ public class Bullet : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("yDeflect") && !gameObject.CompareTag("PlayerBullet"))
         {
-            reflectY(); 
+            reflectY();
+            if (collision.gameObject.GetComponent<DeflectZone>().pongZone == true) { _destructible = false; _damage = 999; }
             makePlayerBullet();
         }
 
@@ -76,6 +79,7 @@ public class Bullet : MonoBehaviour
             Vector3 newDir = collision.gameObject.GetComponent<DeflectZone>().getTarget() - transform.position;
             newDir.z = 0;
             setDirection(newDir.normalized);
+            if (collision.gameObject.GetComponent<DeflectZone>().pongZone == true) { _destructible = false; _damage = 999; }
             makePlayerBullet();
         }
         else if (collision.gameObject.CompareTag("DestroyZone") && !gameObject.CompareTag("PlayerBullet"))

@@ -14,7 +14,7 @@ public class GameController : MonoBehaviour
     [SerializeField]
     GameObject pauseMenu;
     [SerializeField]
-    TextMeshProUGUI timeTheftText;
+    TextMeshProUGUI timeTheftText, warningText;
 
     [Header("Character Select Menu")]
     [SerializeField]
@@ -68,6 +68,7 @@ public class GameController : MonoBehaviour
     [SerializeField]
     Monster batPrefab, wallMonsterPrefab;
     public float batHeight, wallMonLeft, wallMonRight, wallMonHeight;
+    float batTimer, wallMonTimer, batSpawnTime, wallMonSpawnTime;
 
     [Header("Colors")]
     [SerializeField]
@@ -99,6 +100,9 @@ public class GameController : MonoBehaviour
         timeSpentPaused = 0.0f;
         gameOver = false;
         wallController.transitionWallColor(levelGradient.Evaluate(currentPercentage / 100.0f));
+        level = 0;
+        batTimer = 0;
+        wallMonTimer = 0;
     }
 
  
@@ -118,27 +122,32 @@ public class GameController : MonoBehaviour
                 openSelectCharMenu();
             }
         }
-        else if (paused) { timeSpentPaused += Time.unscaledDeltaTime; timeTheftText.text = "Time Theft Commited: " + (int)timeSpentPaused + "s"; }
+        else if (paused) { timeSpentPaused += Time.unscaledDeltaTime; timeTheftText.text = "Time Theft Commited: " + (int)timeSpentPaused + "s"; if (timeSpentPaused > 15.0f) { warningText.text = "Warning: Excessive Time Theft WILL be garnished from your Life Insurance Payout"; } }
         else if (gameOver) { gameOverTimer += Time.unscaledDeltaTime; Time.timeScale = 1.0f - Mathf.Lerp(0, 1, gameOverTimer / slowMoTime); }
-        else { increaseScore(); }
+        else 
+        { 
+            increaseScore();
+
+            batTimer += Time.deltaTime;
+            wallMonTimer += Time.deltaTime;
+            if(batTimer > batSpawnTime)
+            {
+                spawnBat();
+                batTimer = 0;
+            }
+            if (wallMonTimer > wallMonSpawnTime)
+            {
+                spawnWallMonster(Random.Range(0,2) == 1);
+                wallMonTimer = 0;
+            }
+        }
         if(Input.GetKeyDown(KeyCode.Escape) && !atMainMenu && !gameOver)
         {
             if (!paused) { PauseGame(); }
             else { ResumeGame(); }
         }
 
-        if(Input.GetKeyDown(KeyCode.B))
-        {
-            spawnBat(0);
-        }
-        if (Input.GetKeyDown(KeyCode.V))
-        {
-            spawnWallMonster(false);
-        }
-        if (Input.GetKeyDown(KeyCode.N))
-        {
-            spawnWallMonster(true);
-        }
+  
     }
 
     public void startGame(PLAYER_TYPE pType)
@@ -178,11 +187,22 @@ public class GameController : MonoBehaviour
         currentPlayerChracter.stopChargingSound = stopChargingSound;
         
         timeSpentPaused = 0.0f;
+        warningText.text = "";
         drill.Repair(99999);
         gameOver = false;
         gameOverTimer = 0.0f;
         score = 0.0f;
         levelScore = 0.0f;
+        currentPercentage = 10f;
+        wallController.transitionWallColor(levelGradient.Evaluate(currentPercentage / 100.0f));
+        level = 0;
+        batTimer = 0;
+        wallMonTimer = 0;
+        batSpawnTime = 2.5f;
+        wallMonSpawnTime = 8;
+        laserMonster.deactivate();
+        paintAttackSound.Stop();
+        paintPaintSound.Stop();
         ResumeGame();
     }
 
@@ -256,10 +276,13 @@ public class GameController : MonoBehaviour
         foreach (Bullet b in bullets) { GameObject.Destroy(b.gameObject); }
 
         Object[] monsters = FindObjectsOfType<Monster>();
-        //foreach (Monster m in monsters) { GameObject.Destroy(m.gameObject); }
+        foreach (Monster m in monsters) { GameObject.Destroy(m.gameObject); }
 
         Object[] lines = FindObjectsOfType<PaintLine>();
         foreach (PaintLine l in lines) { GameObject.Destroy(l.gameObject); }
+
+        Object[] lasers = FindObjectsOfType<Laser>();
+        foreach (Laser l in lasers) { GameObject.Destroy(l.gameObject); }
     }
 
 
@@ -287,25 +310,33 @@ public class GameController : MonoBehaviour
         if(levelScore >= scorePerLevel)
         {
             level++;
+            laserMonster.activate();
             levelScore = 0.0f;
             currentPercentage += percentageIncrease;
             if (currentPercentage > 100) { currentPercentage = 10f; }
             wallController.transitionWallColor(levelGradient.Evaluate(currentPercentage / 100.0f));
+            batSpawnTime -= 0.15f;
+            wallMonSpawnTime -= 0.4f;
         }
     }
 
-    void spawnBat(float x)
+    void spawnBat()
     {
         Monster newBat = GameObject.Instantiate(batPrefab);
-        newBat.transform.position = new Vector3(x, batHeight, 0.0f);
+        newBat.transform.position = new Vector3(Random.Range(wallMonLeft, wallMonRight), batHeight + Random.Range(-1.0f, 1.0f), 0.0f);
         newBat.killSound = killSound;
+        newBat.level = level;
+        newBat.setStartPos();
     }
 
     void spawnWallMonster(bool isRightSide)
     {
-        Monster newWallMon = GameObject.Instantiate(wallMonsterPrefab);
-        newWallMon.transform.position = new Vector3((isRightSide ? wallMonRight : wallMonLeft), wallMonHeight, 2.5f);
+        WallMonster newWallMon = GameObject.Instantiate(wallMonsterPrefab) as WallMonster;
+        newWallMon.transform.position = new Vector3((isRightSide ? wallMonRight : wallMonLeft), wallMonHeight + Random.Range(-1.0f, 1.0f), 2.5f);
         if (isRightSide) {newWallMon.transform.localScale = new Vector3(-1, 1, 1); }
         newWallMon.killSound = killSound;
+        newWallMon.rightSide = isRightSide;
+        newWallMon.level = level;
+        newWallMon.setStartPos();
     }
 }

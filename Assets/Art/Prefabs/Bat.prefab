@@ -100,12 +100,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e100ecb78106ab04bb1c90ce52c0648a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 5
+  health: 4
   bulletPrefab: {fileID: 5807574631084040336, guid: 5dcae909f03358f439c82129691b0eac, type: 3}
   bulletOffset: 0.1
   killSound: {fileID: 0}
   explosionPrefab: {fileID: 4915378140122189951, guid: 3e43574a39dbfb44fa2ff44f768dd7a6, type: 3}
-  timeBetweenAttacks: 1
+  level: 0
+  spawnTimer: 0
+  yPos: 0
+  startPosY: 0
+  timeBetweenAttacks: 4
   bulletSpeed: 2
   attackDamage: 1
 --- !u!61 &9006264326447848282

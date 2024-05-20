@@ -55,8 +55,8 @@ public class BulletSpawner : MonoBehaviour
                 bulletFireDelay = next.delayTilNextBullet;
             }
         }
-        if (Input.GetKeyDown(KeyCode.Return)) { spawnCrescentWave(Vector3.down, 90.0f, 9, 0.2f, 3, 10, true, 10); }
-        if (Input.GetKeyDown(KeyCode.C)) { spawnCrescentBurst(Vector3.down, 90.0f, 9, 10, true, 10); }
+        //if (Input.GetKeyDown(KeyCode.Return)) { spawnCrescentWave(Vector3.down, 90.0f, 9, 0.2f, 3, 10, true, 10); }
+        //if (Input.GetKeyDown(KeyCode.C)) { spawnCrescentBurst(Vector3.down, 90.0f, 9, 10, true, 10); }
     }
 
     //spawns a single bullet

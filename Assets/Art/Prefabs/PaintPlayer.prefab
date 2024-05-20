@@ -247,7 +247,7 @@ MonoBehaviour:
   energy: 50
   energyRechargeRate: 20
   energyBar: {fileID: 0}
-  pushDuration: 0.25
+  pushDuration: 0.1
   pushStrength: 4
   startChargingSound: {fileID: 0}
   stopChargingSound: {fileID: 0}

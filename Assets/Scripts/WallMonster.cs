@@ -24,17 +24,27 @@ public class WallMonster : Monster
     protected override void Awake()
     {
         base.Awake();
-        attackTimer = 0.0f;
+        attackTimer = timeBetweenAttacks / 1.5f;
     }
 
     // Update is called once per frame
     void Update()
     {
-        attackTimer += Time.deltaTime;
-        if (attackTimer > timeBetweenAttacks)
+        if (spawnTimer <= 1f)
         {
-            attackTimer = 0.0f;
-            Attack();
+            spawnTimer += Time.deltaTime;
+            Vector3 nextPos = transform.position;
+            nextPos.y = Mathf.Lerp(startPosY, yPos, spawnTimer / 1f);
+            transform.position = nextPos;
+        }
+        else
+        {
+            attackTimer += Time.deltaTime;
+            if (attackTimer > timeBetweenAttacks)
+            {
+                attackTimer = 0.0f;
+                Attack();
+            }
         }
     }
 
@@ -51,31 +61,31 @@ public class WallMonster : Monster
                 break;
 
             case 2:
-                bulletSpawner.spawnCrescentWave(fireDir, 30, 5, 0.2f, 1, bulletSpeed * 1.25f, true, attackDamage);
+                bulletSpawner.spawnCrescentWave(fireDir, 30, 4, 0.2f, 1, bulletSpeed * 1.25f, true, attackDamage);
                 break;
 
             case 3:
-                bulletSpawner.spawnCrescentWave(fireDir, 30, 5, 0.2f, 2, bulletSpeed * 1.5f, true, attackDamage);
+                bulletSpawner.spawnCrescentWave(fireDir, 30, 5, 0.2f, 1, bulletSpeed * 1.5f, true, attackDamage);
                 break;
 
             case 4:
-                bulletSpawner.spawnCrescentWave(fireDir, 45, 7, 0.2f, 2, bulletSpeed * 1.5f, true, attackDamage);
+                bulletSpawner.spawnCrescentWave(fireDir, 45, 5, 0.2f, 2, bulletSpeed * 1.5f, true, attackDamage);
                 break;
 
             case 5:
-                bulletSpawner.spawnCrescentWave(fireDir, 45, 10, 0.2f, 2, bulletSpeed * 1.5f, true, attackDamage);
+                bulletSpawner.spawnCrescentWave(fireDir, 45, 6, 0.2f, 2, bulletSpeed * 1.5f, true, attackDamage);
                 break;
 
             case 6:
-                bulletSpawner.spawnCrescentWave(fireDir, 45, 10, 0.1f, 2, bulletSpeed * 1.75f, true, attackDamage);
+                bulletSpawner.spawnCrescentWave(fireDir, 45, 7, 0.1f, 2, bulletSpeed * 1.75f, true, attackDamage);
                 break;
 
             case 7:
-                bulletSpawner.spawnCrescentWave(fireDir, 45, 10, 0.1f, 2, bulletSpeed * 2f, true, attackDamage);
+                bulletSpawner.spawnCrescentWave(fireDir, 45, 8, 0.1f, 2, bulletSpeed * 1.75f, true, attackDamage);
                 break;
 
             default:
-                bulletSpawner.spawnCrescentWave(fireDir, 45, level + 3, 0.1f, (int)(level /2.0f ), bulletSpeed * (2f + level * 0.02f), true, attackDamage);
+                bulletSpawner.spawnCrescentWave(fireDir, 45, level + 3, 0.1f, (int)(level /4.0f ), bulletSpeed * (1.75f + level * 0.02f), true, attackDamage);
                 break;
         }
     }
