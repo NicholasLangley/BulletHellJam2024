@@ -82,7 +82,13 @@ public class GameController : MonoBehaviour
     [SerializeField]
     AudioSource killSound;
     [SerializeField]
-    AudioSource finalExplosionSound;
+    AudioSource finalExplosionSound,startChargingSound, stopChargingSound;
+
+    [SerializeField]
+    public AudioSource swordSwingSound;
+    public AudioSource SwordDashSound;
+    public AudioSource paintAttackSound;
+    public AudioSource paintPaintSound;
 
     public enum PLAYER_TYPE { SWORD_PLAYER, PAINT_PLAYER, PONG_PLAYER, MISSILE_PLAYER}
 
@@ -146,10 +152,16 @@ public class GameController : MonoBehaviour
         switch (pType)
         {
             case PLAYER_TYPE.SWORD_PLAYER:
-                currentPlayerChracter = GameObject.Instantiate(swordPlayerPrefab);
+                SwordPlayer sp = GameObject.Instantiate(swordPlayerPrefab) as SwordPlayer;
+                sp.swingSound = swordSwingSound;
+                sp.dashSound = SwordDashSound;
+                currentPlayerChracter = sp;
                 break;
             case PLAYER_TYPE.PAINT_PLAYER:
-                currentPlayerChracter = GameObject.Instantiate(paintPlayerPrefab);
+                PainterPlayer pp = GameObject.Instantiate(paintPlayerPrefab) as PainterPlayer;
+                pp.attackSound = paintAttackSound;
+                pp.paintSound = paintPaintSound;
+                currentPlayerChracter = pp;
                 break;
             case PLAYER_TYPE.PONG_PLAYER:
                 currentPlayerChracter = GameObject.Instantiate(pongPlayerPrefab);
@@ -162,6 +174,8 @@ public class GameController : MonoBehaviour
         }
 
         currentPlayerChracter.setEnergyBar(energyBar);
+        currentPlayerChracter.startChargingSound = startChargingSound;
+        currentPlayerChracter.stopChargingSound = stopChargingSound;
         
         timeSpentPaused = 0.0f;
         drill.Repair(99999);

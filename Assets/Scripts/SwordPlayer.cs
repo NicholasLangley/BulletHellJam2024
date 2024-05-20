@@ -29,6 +29,15 @@ public class SwordPlayer : Player
     public float slashCost;
     bool redirecting;
 
+    [Header("playerSprites")]
+    [SerializeField]
+    Sprite defaultSprite;
+    [SerializeField]
+    Sprite slashSprite, hitSprite, dashSprite;
+
+    public AudioSource swingSound;
+    public AudioSource dashSound;
+
     protected override void Awake()
     {
         base.Awake();
@@ -37,6 +46,7 @@ public class SwordPlayer : Player
         redirecting = false;
         GetComponentInChildren<DeflectZone>().disableDeflect();
         GetComponentInChildren<AttackZone>().disableAttack();
+        spriteRenderer.sprite = defaultSprite;
     }
 
     // Update is called once per frame
@@ -45,9 +55,9 @@ public class SwordPlayer : Player
         if (dashing) { pushing = false; }
         if (pushing)
         {
-            if (dashing) { pushing = false; }
+            spriteRenderer.sprite = hitSprite;
             pushTimer += Time.deltaTime;
-            if (pushTimer > pushDuration) { stopPushing(); }
+            if (pushTimer > pushDuration) { stopPushing(); spriteRenderer.sprite = defaultSprite; }
             else
             {
                 Vector3 newPos = transform.localPosition + pushDir * pushStrength * Time.deltaTime;
@@ -105,7 +115,7 @@ public class SwordPlayer : Player
         transform.localPosition = newPos;
 
         dashTimer += Time.deltaTime;
-        if (dashTimer >= dashTime) { dashing = false; GetComponentInChildren<AttackZone>().disableAttack(); }
+        if (dashTimer >= dashTime) { dashing = false; GetComponentInChildren<AttackZone>().disableAttack(); spriteRenderer.sprite = defaultSprite; }
     }
 
     public void tryDash()
@@ -118,6 +128,8 @@ public class SwordPlayer : Player
             dashDir = dashDir.normalized;
             decreaseEnergy(dashEnergyCost);
             GetComponentInChildren<AttackZone>().enableAttack();
+            spriteRenderer.sprite = dashSprite;
+            dashSound.Play();
         }
         else
         {
@@ -137,6 +149,8 @@ public class SwordPlayer : Player
             redirecting = true;
             Invoke("stopRedirecting", redirectLength);
             decreaseEnergy(slashCost);
+            spriteRenderer.sprite = slashSprite;
+            swingSound.Play();
         }
         else
         {
@@ -150,6 +164,7 @@ public class SwordPlayer : Player
     {
         GetComponentInChildren<DeflectZone>().disableDeflect();
         Invoke("finishRedirectCooldown", redirectCooldown);
+        spriteRenderer.sprite = defaultSprite;
     }
 
     void finishRedirectCooldown()

@@ -7,6 +7,8 @@ public class ResourceBar : MonoBehaviour
 {
 
     public Slider slider;
+    public Image barOutline;
+    public Color glowing, normalColor;
     // Start is called before the first frame update
     void Start()
     {
@@ -32,5 +34,11 @@ public class ResourceBar : MonoBehaviour
     public void notEnoughEnergy()
     {
 
+    }
+
+    public void glow(bool glow)
+    {
+        if (glow){barOutline.color = glowing;}
+        else { barOutline.color = normalColor; }
     }
 }

@@ -32,7 +32,7 @@ public class DeflectZone : MonoBehaviour
     public void enableDeflect()
     {
         gameObject.layer = LayerMask.NameToLayer("laser");
-        gameObject.GetComponent<SpriteRenderer>().enabled = true;
+        //gameObject.GetComponent<SpriteRenderer>().enabled = true;
     }
     public void disableDeflect()
     {

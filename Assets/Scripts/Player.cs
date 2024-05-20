@@ -20,11 +20,18 @@ public abstract class Player : MonoBehaviour
     protected float pushTimer = 0.0f;
     protected bool pushing;
 
+    public AudioSource startChargingSound;
+    public AudioSource stopChargingSound;
+
+    protected SpriteRenderer spriteRenderer;
+    
+
     // Start is called before the first frame update
     protected virtual void Awake()
     {
         //energyBar.setMaxValue(maxEnergy);
         //energyBar.setValue(energy);
+        spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     public void setEnergyBar(ResourceBar bar)
@@ -38,6 +45,8 @@ public abstract class Player : MonoBehaviour
     {
         if(other.CompareTag("DrillRecharge"))
         {
+            energyBar.glow(true);
+            if (!startChargingSound.isPlaying) { startChargingSound.Play(); }
             StartCoroutine("Recharge");
         }
     }
@@ -46,6 +55,9 @@ public abstract class Player : MonoBehaviour
     {
         if (other.CompareTag("DrillRecharge"))
         {
+            energyBar.glow(false);
+            if (!stopChargingSound.isPlaying)
+            {stopChargingSound.Play();}
             StopCoroutine("Recharge");
         }
     }

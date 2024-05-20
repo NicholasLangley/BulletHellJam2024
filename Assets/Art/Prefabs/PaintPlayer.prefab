@@ -29,7 +29,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0.33, z: 0}
-  m_LocalScale: {x: 1.36223, y: 0.84067, z: 1}
+  m_LocalScale: {x: 2.5, y: 0.75, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1192420246921743914}
@@ -249,6 +249,8 @@ MonoBehaviour:
   energyBar: {fileID: 0}
   pushDuration: 0.25
   pushStrength: 4
+  startChargingSound: {fileID: 0}
+  stopChargingSound: {fileID: 0}
   xSpeed: 10
   ySpeed: 10
   minX: -8.3
@@ -262,6 +264,13 @@ MonoBehaviour:
   paintDuration: 3
   paintTickRate: 0.01
   attackCost: 5
+  defaultSprite: {fileID: -1210299034, guid: 81d996a4dcdbc5b4f9e2749abf80c28c, type: 3}
+  PaintSprite: {fileID: -529180326, guid: 81d996a4dcdbc5b4f9e2749abf80c28c, type: 3}
+  hitSprite: {fileID: 1151206870, guid: 81d996a4dcdbc5b4f9e2749abf80c28c, type: 3}
+  dashSprite: {fileID: -1779051504, guid: 81d996a4dcdbc5b4f9e2749abf80c28c, type: 3}
+  attackSprite: {fileID: -1225441169, guid: 81d996a4dcdbc5b4f9e2749abf80c28c, type: 3}
+  attackSound: {fileID: 0}
+  paintSound: {fileID: 0}
 --- !u!70 &3655251327072613876
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

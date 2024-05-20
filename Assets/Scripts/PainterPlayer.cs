@@ -32,11 +32,21 @@ public class PainterPlayer : Player
     public float attackCost;
     bool attacking;
 
+    [Header("playerSprites")]
+    [SerializeField]
+    Sprite defaultSprite;
+    [SerializeField]
+    Sprite PaintSprite, hitSprite, dashSprite, attackSprite;
+
+    public AudioSource attackSound;
+    public AudioSource paintSound;
+
     protected override void Awake()
     {
         base.Awake();
         currentlyPainting = false;
         stopAttacking();
+        spriteRenderer.sprite = defaultSprite;
     }
 
     // Update is called once per frame
@@ -46,8 +56,9 @@ public class PainterPlayer : Player
         {
             stopPaint(); 
             stopAttacking();
+            spriteRenderer.sprite = hitSprite;
             pushTimer += Time.deltaTime;
-            if (pushTimer > pushDuration) { stopPushing(); }
+            if (pushTimer > pushDuration) { stopPushing(); spriteRenderer.sprite = defaultSprite; }
             else
             {
                 Vector3 newPos = transform.localPosition + pushDir * pushStrength * Time.deltaTime;
@@ -121,6 +132,8 @@ public class PainterPlayer : Player
         currentLine.CreateLine(transform.position, paintDuration, paintTickRate);
         currentlyPainting = true;
         paintTimer = 0;
+        if (!attackSound.isPlaying) { paintSound.Play(); }
+        spriteRenderer.sprite = PaintSprite;
     }
 
     void paint()
@@ -142,6 +155,8 @@ public class PainterPlayer : Player
     {
         currentlyPainting = false;
         currentLine = null;
+        paintSound.Stop();
+        spriteRenderer.sprite = defaultSprite;
     }
 
     void startAttacking()
@@ -149,6 +164,8 @@ public class PainterPlayer : Player
         attacking = true;
         attack();
         GetComponentInChildren<AttackZone>().enableAttack();
+        if (!attackSound.isPlaying) { attackSound.Play(); }
+        spriteRenderer.sprite = attackSprite;
     }
 
     void attack()
@@ -161,5 +178,7 @@ public class PainterPlayer : Player
     {
         attacking = false;
         GetComponentInChildren<AttackZone>().disableAttack();
+        if (attackSound != null) {attackSound.Stop(); }
+        spriteRenderer.sprite = defaultSprite;
     }
 }

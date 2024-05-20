@@ -20,6 +20,7 @@ public class PongPlayer : Player
     {
         base.Awake();
         GetComponentInChildren<DeflectZone>().enableDeflect();
+        energyBar.glow(true);
     }
 
     // Update is called once per frame
