@@ -89,6 +89,18 @@ public class SwordPlayer : Player
 
             
         }
+
+        if(charging)
+        {
+            drawLightning();
+            lightningMatTimer += Time.deltaTime;
+            if (lightningMatTimer > 0.25f)
+            {
+                lr.material = firstMat ? lightningMat2 : lightningMat;
+                firstMat = !firstMat;
+                lightningMatTimer = 0.0f;
+            }
+        }
         
     }
 

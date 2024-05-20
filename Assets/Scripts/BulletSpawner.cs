@@ -9,10 +9,10 @@ public class BulletSpawner : MonoBehaviour
         public Vector3 direction;
         public float speed;
         public bool reflects;
-        public int damage;
+        public float damage;
         public float delayTilNextBullet;
 
-        public futureBullet(Vector3 direction, float speed, bool reflects, int damage, float delayTilNextBullet)
+        public futureBullet(Vector3 direction, float speed, bool reflects, float damage, float delayTilNextBullet)
         {
             this.direction = direction;
             this.speed = speed;
@@ -44,8 +44,6 @@ public class BulletSpawner : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //timer += Time.deltaTime;
-        //if (timer > 1.0f) { spawnCrescentBurst(Vector3.down, 90.0f, 9, 10, true, 10); timer = 0.0f; }
         if(bulletsToFire.Count > 0)
         {
             bulletFireTimer += Time.deltaTime;
@@ -62,7 +60,7 @@ public class BulletSpawner : MonoBehaviour
     }
 
     //spawns a single bullet
-    public void spawnBullet(Vector3 direction, float speed, bool reflects, int damage)
+    public void spawnBullet(Vector3 direction, float speed, bool reflects, float damage)
     {
         Bullet bullet = GameObject.Instantiate(bulletPrefab);
         bullet.Init(direction.normalized, speed, reflects, damage);
@@ -74,7 +72,7 @@ public class BulletSpawner : MonoBehaviour
     }
 
     //sends a burst of bullets in an arc
-    public void spawnCrescentBurst(Vector3 centerDir, float degrees, int bulletCount, float speed, bool reflects, int damage)
+    public void spawnCrescentBurst(Vector3 centerDir, float degrees, int bulletCount, float speed, bool reflects, float damage)
     {
         Vector3 angle = Quaternion.AngleAxis(-degrees / 2.0f, Vector3.forward) * centerDir;
         for (int i = 0; i < bulletCount; i++)
@@ -85,10 +83,10 @@ public class BulletSpawner : MonoBehaviour
     }
 
     //send an arc of bullets one at a time. Can double back and forth
-    public void spawnCrescentWave(Vector3 centerDir, float degrees, int bulletCount, float fireRate, int doubleBackCount, float speed, bool reflects, int damage)
+    public void spawnCrescentWave(Vector3 centerDir, float degrees, int bulletCount, float fireRate, int doubleBackCount, float speed, bool reflects, float damage)
     {
         Vector3 angle = Quaternion.AngleAxis(-degrees / 2.0f, Vector3.forward) * centerDir;
-        for (int doubleback = 0; doubleback < doubleBackCount; doubleback++)
+        for (int doubleback = 0; doubleback < doubleBackCount + 1; doubleback++)
         {
             int dir = 1;
             if (doubleback % 2 == 1) { dir = -1; }

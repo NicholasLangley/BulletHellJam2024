@@ -13,6 +13,10 @@ public class PaintLine : MonoBehaviour
 
     Queue<PolygonCollider2D> colliders;
 
+    Material mat1, mat2;
+    float matTimer;
+    bool firstMat;
+
     public void Awake()
     {
         age = 0;
@@ -36,6 +40,15 @@ public class PaintLine : MonoBehaviour
                 else { GameObject.Destroy(colliders.Dequeue()); removeFirstLineSegment(); }
             }
         }
+
+        //animation
+        matTimer += Time.deltaTime;
+        if(matTimer > 0.25f)
+        {
+            lr.material = firstMat ? mat2 : mat1;
+            firstMat = !firstMat;
+            matTimer = 0.0f;
+        }
     }
 
     // Update is called once per frame
@@ -45,6 +58,7 @@ public class PaintLine : MonoBehaviour
         lr.SetPosition(1, startPos);
         decayDelay = duration;
         decayTickRate = tickRate;
+        lr.textureMode = LineTextureMode.Tile;
     }
 
     public void addPoint(Vector3 pos)
@@ -97,5 +111,14 @@ public class PaintLine : MonoBehaviour
 
         lr.positionCount = newVertextCount;
         lr.SetPositions(newPositions);
+    }
+
+    public void setMat(Material material, Material material2)
+    {
+        lr.material = material;
+        mat1 = material;
+        mat2 = material2;
+        matTimer = 0.0f;
+        firstMat = true;
     }
 }

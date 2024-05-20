@@ -251,6 +251,9 @@ MonoBehaviour:
   pushStrength: 4
   startChargingSound: {fileID: 0}
   stopChargingSound: {fileID: 0}
+  lightningMat: {fileID: 2100000, guid: 4c512d4a6147e474c86ae5286914c8f8, type: 2}
+  lightningMat2: {fileID: 2100000, guid: 424ddd0f9725e0445944ac8ba52a55c4, type: 2}
+  lightningHeight: -7
   xSpeed: 10
   ySpeed: 10
   minX: -8.3
@@ -260,7 +263,7 @@ MonoBehaviour:
   sprintSpeedMultiplier: 1.5
   sprintEnergyCost: 10
   paintCost: 5
-  paintLinewidth: 0.25
+  paintLinewidth: 0.75
   paintDuration: 3
   paintTickRate: 0.01
   attackCost: 5

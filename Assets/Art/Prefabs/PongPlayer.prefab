@@ -423,6 +423,10 @@ MonoBehaviour:
   energyBar: {fileID: 0}
   pushDuration: 0
   pushStrength: 0
+  startChargingSound: {fileID: 0}
+  stopChargingSound: {fileID: 0}
+  lightningMat: {fileID: 2100000, guid: 4c512d4a6147e474c86ae5286914c8f8, type: 2}
+  lightningMat2: {fileID: 2100000, guid: 424ddd0f9725e0445944ac8ba52a55c4, type: 2}
   xSpeed: 10
   minX: -8.3
   maxX: 8.3

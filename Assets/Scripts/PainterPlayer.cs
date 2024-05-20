@@ -67,6 +67,7 @@ public class PainterPlayer : Player
                 newPos.x = Mathf.Clamp(newPos.x, minX, maxX);
 
                 transform.localPosition = newPos;
+                spriteRenderer.sprite = hitSprite;
             }
         }
         else
@@ -96,6 +97,18 @@ public class PainterPlayer : Player
             else if (attacking)
             {
                 attack();
+            }
+        }
+
+        if (charging)
+        {
+            drawLightning();
+            lightningMatTimer += Time.deltaTime;
+            if (lightningMatTimer > 0.25f)
+            {
+                lr.material = firstMat ? lightningMat2 : lightningMat;
+                firstMat = !firstMat;
+                lightningMatTimer = 0.0f;
             }
         }
     }
@@ -134,6 +147,7 @@ public class PainterPlayer : Player
         paintTimer = 0;
         if (!attackSound.isPlaying) { paintSound.Play(); }
         spriteRenderer.sprite = PaintSprite;
+        currentLine.setMat(lightningMat, lightningMat2);
     }
 
     void paint()

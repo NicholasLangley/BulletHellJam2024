@@ -20,6 +20,8 @@ public abstract class Monster : MonoBehaviour
     [SerializeField]
     GameObject explosionPrefab;
 
+    public int level;
+
     // Start is called before the first frame update
     protected virtual void Awake()
     {

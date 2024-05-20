@@ -9,7 +9,7 @@ public class Bullet : MonoBehaviour
     public Vector3 _direction;
     public bool _reflects;
 
-    public int _damage = 1;
+    public float _damage = 1;
 
     [SerializeField]
     GameObject explosionPrefab;
@@ -31,7 +31,7 @@ public class Bullet : MonoBehaviour
         transform.position = newPos;
     }
 
-    public void Init(Vector3 dir, float speed, bool doesReflect, int damage)
+    public void Init(Vector3 dir, float speed, bool doesReflect, float damage)
     {
         _speed = speed;
         _direction = dir;
